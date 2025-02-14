@@ -1,4 +1,3 @@
-import { Flowbite } from "flowbite-react";
 import type { Config } from "tailwindcss";
 
 export default {
