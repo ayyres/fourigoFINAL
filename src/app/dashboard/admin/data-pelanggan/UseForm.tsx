@@ -35,11 +35,11 @@ const UserForm: React.FC<UserFormProps> = ({
         className="bg-white p-8 rounded-lg shadow-md max-w-2xl w-full mx-4 mt-10 border border-gray-200"
       >
         <h2 className="text-5xl font-extrabold mb-6 text-gray-800 dark:text-white">
-  {initialData ? "Update" : "Create"}
-  <small className="ms-2 font-semibold text-gray-500 dark:text-gray-400">
-  User
-  </small>
-</h2>
+          {initialData ? "Update" : "Create"}
+          <small className="ms-2 font-semibold text-gray-500 dark:text-gray-400">
+            User
+          </small>
+        </h2>
 
         <div className="mb-6">
           <label className="block text-lg text-gray-600 mb-2">Name:</label>
@@ -65,6 +65,17 @@ const UserForm: React.FC<UserFormProps> = ({
         </div>
         <div className="mb-6">
           <label className="block text-lg text-gray-600 mb-2">Phone:</label>
+          <input
+            type="text"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
+          />
+        </div>
+        <div className="mb-6">
+          <label className="block text-lg text-gray-600 mb-2">Adress:</label>
           <input
             type="text"
             name="phone"
