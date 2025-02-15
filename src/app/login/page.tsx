@@ -21,24 +21,8 @@ const page = () => {
       {/* Form */}
       <form className="w-full max-w-md p-10 pb-16 border border-gray-300 rounded-lg shadow-md bg-white dark:bg-gray-700 dark:border-gray-600">
         <h1 className="text-3xl font-semibold text-gray-900 mb-6 dark:text-white">
-          Login dulu yuk,
+          Login dulu, yuk
         </h1>
-
-        {/* Input Nama */}
-        <label
-          htmlFor="name"
-          className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
-        >
-          Nama
-        </label>
-        <input
-          type="text"
-          id="name"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 mb-6 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-          placeholder="Nama Lengkap"
-          required
-        />
-
         {/* Input Email */}
         <label
           htmlFor="email"
@@ -65,24 +49,9 @@ const page = () => {
           type="password"
           id="password"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 mb-6 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-          placeholder="••••••••"
+          placeholder="••••••"
           required
         />
-
-        {/* Checkbox Ingat Saya */}
-        <div className="flex items-center mb-6">
-          <input
-            type="checkbox"
-            id="remember"
-            className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <label
-            htmlFor="remember"
-            className="ml-3 text-sm text-gray-900 dark:text-gray-300"
-          >
-            Ingat Saya
-          </label>
-        </div>
 
         {/* Tombol Daftar */}
         <button
