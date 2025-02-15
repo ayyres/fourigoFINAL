@@ -11,7 +11,11 @@ const Home: React.FC<HomeProps> = ({ users }) => {
   return (
     <div>
       <h1>User Data</h1>
-      <DataTable data={users} />
+      <DataTable
+        data={users}
+        onEdit={handleEdit} // Kirim fungsi handleEdit
+        onDelete={handleDelete}
+      />
     </div>
   );
 };
