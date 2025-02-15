@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { fetchUsers, createUser, updateUser, deleteUser } from "@/service/api";
 import DataTable from "./DataTable";
 import { User } from "@/types/types";
-import UserForm from "./UseForm";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
@@ -23,7 +22,7 @@ const Page = () => {
   const router = useRouter();
 
   const handleAddUserClick = () => {
-    router.push("/dashboard/admin/data-pelanggan/add"); // Ganti dengan path yang sesuai
+    router.push("/dashboard/admin/data-pelanggan/add");
   };
 
   // Handle create or update user
