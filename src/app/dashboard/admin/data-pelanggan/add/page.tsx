@@ -17,7 +17,6 @@ const AddUserPage = () => {
 
   return (
     <div>
-      <h1>Add New User</h1>
       <UserForm
         onSubmit={handleSubmit}
         onCancel={() => router.push("/dashboard/admin/data-pelanggan")}

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { fetchUsers, createUser, updateUser, deleteUser } from "@/service/api";
 import DataTable from "./DataTable";
 import { User } from "@/types/types";
@@ -11,7 +11,7 @@ const Page = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   // Fetch users on component mount
-  React.useEffect(() => {
+  useEffect(() => {
     const loadUsers = async () => {
       const data = await fetchUsers();
       setUsers(data);
@@ -49,9 +49,22 @@ const Page = () => {
   };
 
   return (
-    <div>
-      <h1>User Data</h1>
-      <button onClick={handleAddUserClick}>Add User</button>
+    <div className="p-6">
+      {/* <div className="bg-white shadow-md rounded-lg p-6"> */}
+
+      <h3 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-4xl lg:text-4xl">
+        <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+          User
+        </span>
+        Data
+      </h3>
+
+      <button
+        onClick={handleAddUserClick}
+        className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition duration-200 mb-4"
+      >
+        Add User
+      </button>
       <DataTable
         data={users}
         onEdit={(user) => {
@@ -61,6 +74,7 @@ const Page = () => {
         onDelete={handleDelete}
       />
     </div>
+    // </div>
   );
 };
 
