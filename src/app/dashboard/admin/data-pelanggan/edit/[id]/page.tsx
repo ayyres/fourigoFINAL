@@ -43,7 +43,6 @@ const EditUserPage = () => {
 
   return (
     <div>
-      <h1>Edit User</h1>
       <UserForm
         initialData={user}
         onSubmit={handleSubmit}

@@ -50,24 +50,31 @@ const Page = () => {
 
   return (
     <div className="p-6">
-      <div className="bg-white shadow-md rounded-lg p-6">
-<h4 className="text-3xl font-extrabold dark:text-white">User<small className="ms-2 font-semibold text-gray-500 dark:text-gray-400">Data</small></h4>
-        <button
-          onClick={handleAddUserClick}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200 mb-4"
-        >
-          Add User
-        </button>
-        <DataTable
-          data={users}
-          onEdit={(user) => {
-            setSelectedUser(user);
-            setShowForm(true);
-          }}
-          onDelete={handleDelete}
-        />
-      </div>
+      {/* <div className="bg-white shadow-md rounded-lg p-6"> */}
+
+      <h3 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-4xl lg:text-4xl">
+        <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+          User
+        </span>
+        Data
+      </h3>
+
+      <button
+        onClick={handleAddUserClick}
+        className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition duration-200 mb-4"
+      >
+        Add User
+      </button>
+      <DataTable
+        data={users}
+        onEdit={(user) => {
+          setSelectedUser(user);
+          setShowForm(true);
+        }}
+        onDelete={handleDelete}
+      />
     </div>
+    // </div>
   );
 };
 
