@@ -23,6 +23,7 @@ const page = () => {
         <h1 className="text-3xl font-semibold text-gray-900 mb-6 dark:text-white">
           Login dulu, yuk
         </h1>
+
         {/* Input Email */}
         <label
           htmlFor="email"
@@ -53,7 +54,7 @@ const page = () => {
           required
         />
 
-        {/* Tombol Daftar */}
+        {/* Tombol Login */}
         <button
           type="submit"
           className="w-full text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-base px-5 py-3 text-center"
@@ -61,6 +62,19 @@ const page = () => {
           Lanjutkan
         </button>
 
+        {/* Link Forgot Password */}
+        <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
+          Lupa password?{" "}
+          <a
+            href="/forgot-password"
+            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+          >
+            Reset di sini
+          </a>
+          .
+        </p>
+
+        {/* Link Registrasi */}
         <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">
           Belum punya akun?{" "}
           <a
