@@ -1,43 +1,67 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import { fetchUsers, createUser, updateUser, deleteUser } from "@/service/api";
+import DataTable from "./DataTable";
 import { User } from "@/types/types";
+import { useRouter } from "next/navigation";
 
-interface DataTableProps {
-  data: User[];
-}
+const Page = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [showForm, setShowForm] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
-const Page: React.FC<DataTableProps> = ({ data }) => {
-  if (!data || data.length === 0) {
-    return <div className="text-gray-500">No data available</div>;
-  }
+  // Fetch users on component mount
+  React.useEffect(() => {
+    const loadUsers = async () => {
+      const data = await fetchUsers();
+      setUsers(data);
+    };
+    loadUsers();
+  }, []);
+
+  const router = useRouter();
+
+  const handleAddUserClick = () => {
+    router.push("/dashboard/admin/data-alat/add");
+  };
+
+  // Handle create or update user
+  const handleSubmit = async (user: Omit<User, "id"> | User) => {
+    if ("id" in user) {
+      // Update existing user
+      const updatedUser = await updateUser(user);
+      setUsers((prev) =>
+        prev.map((u) => (u.id === updatedUser.id ? updatedUser : u))
+      );
+    } else {
+      // Create new user
+      const newUser = await createUser(user);
+      setUsers((prev) => [...prev, newUser]);
+    }
+    setShowForm(false);
+    setSelectedUser(null);
+  };
+
+  // Handle delete user
+  const handleDelete = async (id: number) => {
+    await deleteUser(id);
+    setUsers((prev) => prev.filter((user) => user.id !== id));
+  };
 
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full bg-white border border-gray-200 rounded-lg">
-        <thead>
-          <tr className="bg-gray-100 text-left text-gray-600 uppercase text-sm leading-normal">
-            <th className="py-3 px-6">ID</th>
-            <th className="py-3 px-6">Name</th>
-            <th className="py-3 px-6">Email</th>
-            <th className="py-3 px-6">Phone</th>
-          </tr>
-        </thead>
-        <tbody className="text-gray-700 text-sm font-light">
-          {data.map((user) => (
-            <tr
-              key={user.id}
-              className="border-b border-gray-200 hover:bg-gray-100"
-            >
-              <td className="py-3 px-6">{user.id}</td>
-              <td className="py-3 px-6">{user.name}</td>
-              <td className="py-3 px-6">{user.email}</td>
-              <td className="py-3 px-6">{user.phone}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div>
+      <h1>User Data</h1>
+      <button onClick={handleAddUserClick}>Add User</button>
+      <DataTable
+        data={users}
+        onEdit={(user) => {
+          setSelectedUser(user);
+          setShowForm(true);
+        }}
+        onDelete={handleDelete}
+      />
     </div>
   );
 };
-
 
 export default Page;
