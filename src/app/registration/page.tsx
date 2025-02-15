@@ -1,65 +1,95 @@
-"use client";
-
-import { Formik, Form } from "formik";
-import { RegistrationInitialValues } from "./Registration.data";
-import { RegistrationValidation } from "./Registration.validation";
-import { Button, Spinner } from "@radix-ui/themes";
-import TextInput from "@/components/Formik/TextInput/TextInput";
-import { Fragment } from "react/jsx-runtime";
-import * as RadioGroup from "@radix-ui/react-radio-group";
-
 const Registration = () => {
   
   return (
-    <div className="flex justify-center items-center min-h-screen bg-black">
-      <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg flex overflow-hidden">
-        {/* Bagian Kiri - Gambar */}
-        <div className="w-1/2 bg-purple-700 flex justify-center items-center p-8">
-          <img
-            src="pndf-removebg-preview.png" // Ganti dengan path gambar yang benar
-            alt="Registration Illustration"
-            className="w-full h-auto"
-          />
-        </div>
+    <>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
+      {/* Logo di Atas Form */}
+      <a
+        href="https://flowbite.com/"
+        className="flex items-center space-x-3 mb-6"
+      >
+        <img
+          src="https://flowbite.com/docs/images/logo.svg"
+          className="h-12"
+          alt="Flowbite Logo"
+        />
+        <span className="text-3xl font-semibold text-gray-900 dark:text-white">
+          Flowbite
+        </span>
+      </a>
 
-        {/* Bagian Kanan - Form */}
-        <div className="w-1/2 p-8">
-          <h2 className="text-gray-900 text-2xl font-bold text-center mb-6">Registration Admin</h2>
+      {/* Form */}
+      <form className="w-full max-w-md p-10 pb-16 border border-gray-300 rounded-lg shadow-md bg-white dark:bg-gray-700 dark:border-gray-600">
+        <h1 className="text-3xl font-semibold text-gray-900 mb-6 dark:text-white">
+          Daftar dulu, yuk
+        </h1>
 
-          <Formik
-            initialValues={RegistrationInitialValues}
-            validationSchema={RegistrationValidation}
-            onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                console.log(values);
-                setSubmitting(false);
-              }, 400);
-            }}
+        {/* Input Nama */}
+        <label
+            htmlFor="name"
+            className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
           >
-            {({ isSubmitting, setFieldValue, values }) => (
-              <Form className="grid grid-cols-2 gap-4">
-                <TextInput label="Username" name="username" placeholder="Enter your username" type="text" />
-                <TextInput label="Email" name="email" placeholder="Enter your email" type="email" />
-                <TextInput label="Password" name="password" placeholder="Enter password" type="password" />
-                <TextInput label="Confirm Password" name="confirmPassword" placeholder="Confirm your password" type="password" />
-                <div className="col-span-2 flex justify-center mt-4">
-                {/* <div id='section1' style={{height:"4000px", background:"black"}}>Scroll</div> */}
-                  <Button type="submit" variant="soft" color="blue" className="w-full" disabled={isSubmitting} highContrast>
-                    {isSubmitting ? (
-                      <Fragment>
-                        <Spinner size="2" /> Processing...
-                      </Fragment>
-                    ) : (
-                      "Send"
-                    )}
-                  </Button>
-                </div>
-              </Form>
-            )}
-          </Formik>
-        </div>
-      </div>
+            Nama
+          </label>
+          <input
+            type="text"
+            id="name"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 mb-6 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            placeholder="Nama Lengkap"
+            required
+          />
+
+        {/* Input Email */}
+        <label
+          htmlFor="email"
+          className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
+        >
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 mb-6 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+          placeholder="name@example.com"
+          required
+        />
+
+        {/* Input Password */}
+        <label
+          htmlFor="password"
+          className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
+        >
+          Password
+        </label>
+        <input
+          type="password"
+          id="password"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 mb-6 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+          placeholder="••••••"
+          required
+        />
+
+        {/* Tombol Daftar */}
+        <button
+          type="submit"
+          className="w-full text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-base px-5 py-3 text-center"
+        >
+          Lanjutkan
+        </button>
+
+        <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">
+          Sudah punya akun?{" "}
+          <a
+            href="/login"
+            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+          >
+            Login di sini
+          </a>
+          .
+        </p>
+      </form>
     </div>
+    </>
   );
 };
 
