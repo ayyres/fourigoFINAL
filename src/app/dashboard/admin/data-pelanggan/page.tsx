@@ -1,9 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { fetchUsers, createUser, updateUser, deleteUser } from "@/service/api";
 import DataTable from "./DataTable";
 import { User } from "@/types/types";
-import UserForm from "./UseForm";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
@@ -12,7 +11,7 @@ const Page = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   // Fetch users on component mount
-  React.useEffect(() => {
+  useEffect(() => {
     const loadUsers = async () => {
       const data = await fetchUsers();
       setUsers(data);
@@ -23,7 +22,7 @@ const Page = () => {
   const router = useRouter();
 
   const handleAddUserClick = () => {
-    router.push("/dashboard/admin/data-pelanggan/add"); // Ganti dengan path yang sesuai
+    router.push("/dashboard/admin/data-pelanggan/add");
   };
 
   // Handle create or update user
@@ -50,17 +49,24 @@ const Page = () => {
   };
 
   return (
-    <div>
-      <h1>User Data</h1>
-      <button onClick={handleAddUserClick}>Add User</button>
-      <DataTable
-        data={users}
-        onEdit={(user) => {
-          setSelectedUser(user);
-          setShowForm(true);
-        }}
-        onDelete={handleDelete}
-      />
+    <div className="p-6">
+      <div className="bg-white shadow-md rounded-lg p-6">
+<h4 className="text-3xl font-extrabold dark:text-white">User<small className="ms-2 font-semibold text-gray-500 dark:text-gray-400">Data</small></h4>
+        <button
+          onClick={handleAddUserClick}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200 mb-4"
+        >
+          Add User
+        </button>
+        <DataTable
+          data={users}
+          onEdit={(user) => {
+            setSelectedUser(user);
+            setShowForm(true);
+          }}
+          onDelete={handleDelete}
+        />
+      </div>
     </div>
   );
 };
