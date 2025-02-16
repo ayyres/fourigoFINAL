@@ -1,6 +1,7 @@
 import { User } from "@/types/types";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 interface DataTableProps {
   data: User[];
@@ -58,28 +59,31 @@ const DataTable: React.FC<DataTableProps> = ({ data, onEdit, onDelete }) => {
               <td className="px-6 py-4">{user.phone}</td>
               <td className="px-6 py-4">{user.adress}</td>
               <td className="px-6 py-4 flex justify-center space-x-3">
-                <Link
-                  href={`/dashboard/admin/data-pelanggan/edit/${user.id}`}
-                  className="flex items-center space-x-2 px-5 py-2 text-lg font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"
-                >
-                  <img
-                    src="/edit.jpg"
-                    alt="Edit"
-                    className="w-5 h-5 object-contain filter invert"
-                    style={{ filter: "invert(1)" }}
-                  />
-                </Link>
-                <button
-                  onClick={() => onDelete(user.id)}
-                  className="flex items-center space-x-2 px-5 py-2 text-lg font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300"
-                >
-                  <img
-                    src="/delete.jpg"
-                    alt="Delete"
-                    className="w-5 h-5 object-contain filter invert"
-                    style={{ filter: "invert(1)" }}
-                  />
-                </button>
+              <Link
+  href={`/dashboard/admin/data-pelanggan/edit/${user.id}`}
+  className="flex items-center space-x-2 px-5 py-2 text-lg font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"
+>
+<img 
+  src="/edit.jpg" 
+  alt="Edit" 
+  className="w-5 h-5 object-contain filter invert"
+  style={{ filter: "invert(1)" }}
+/>
+
+</Link>
+<button
+  onClick={() => onDelete(user.id)}
+  className="flex items-center space-x-2 px-5 py-2 text-lg font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300"
+>
+<img 
+  src="/delete.jpg" 
+  alt="Delete" 
+  className="w-5 h-5 object-contain filter invert"
+  style={{ filter: "invert(1)" }}
+/>
+
+</button>
+
               </td>
             </tr>
           ))}
