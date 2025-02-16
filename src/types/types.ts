@@ -1,7 +1,7 @@
 export interface User {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  adress: string;
+  pelanggan_id: number;
+  pelanggan_nama: string;
+  pelanggan_email: string;
+  pelanggan_notelp: string;
+  pelanggan_alamat: string;
 }

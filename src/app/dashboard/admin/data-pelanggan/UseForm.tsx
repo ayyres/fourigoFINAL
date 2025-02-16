@@ -5,8 +5,9 @@ import React, { useState } from "react";
 
 interface UserFormProps {
   initialData?: User;
-  onSubmit: (user: Omit<User, "id"> | User) => void;
+  onSubmit: (user: User | Omit<User, "id">) => void;
   onCancel: () => void;
+  disabled?: boolean;
 }
 
 const UserForm: React.FC<UserFormProps> = ({
@@ -14,9 +15,15 @@ const UserForm: React.FC<UserFormProps> = ({
   onSubmit,
   onCancel,
 }) => {
-  const [formData, setFormData] = useState<Omit<User, "id"> | User>(
-    initialData || { name: "", email: "", phone: "", adress: "" }
-  );
+  const [formData, setFormData] = useState<Omit<User, "pelanggan_id"> | User>({
+    pelanggan_nama: initialData?.pelanggan_nama || "",
+    pelanggan_email: initialData?.pelanggan_email || "",
+    pelanggan_notelp: initialData?.pelanggan_notelp || "",
+    pelanggan_alamat: initialData?.pelanggan_alamat || "",
+    ...(initialData?.pelanggan_id
+      ? { pelanggan_id: initialData.pelanggan_id }
+      : {}),
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -25,7 +32,11 @@ const UserForm: React.FC<UserFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    onSubmit(
+      "pelanggan_id" in formData
+        ? (formData as User) // Jika update, kirim User lengkap
+        : (formData as Omit<User, "id">) // Jika create, hapus pelanggan_id
+    );
   };
 
   return (
@@ -45,8 +56,8 @@ const UserForm: React.FC<UserFormProps> = ({
           <label className="block text-lg text-gray-600 mb-2">Name:</label>
           <input
             type="text"
-            name="name"
-            value={formData.name}
+            name="pelanggan_nama"
+            value={formData.pelanggan_nama}
             onChange={handleChange}
             required
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
@@ -56,8 +67,8 @@ const UserForm: React.FC<UserFormProps> = ({
           <label className="block text-lg text-gray-600 mb-2">Email:</label>
           <input
             type="email"
-            name="email"
-            value={formData.email}
+            name="pelanggan_email"
+            value={formData.pelanggan_email}
             onChange={handleChange}
             required
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
@@ -67,19 +78,19 @@ const UserForm: React.FC<UserFormProps> = ({
           <label className="block text-lg text-gray-600 mb-2">Phone:</label>
           <input
             type="text"
-            name="phone"
-            value={formData.phone}
+            name="pelanggan_notelp"
+            value={formData.pelanggan_notelp}
             onChange={handleChange}
             required
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
           />
         </div>
         <div className="mb-6">
-          <label className="block text-lg text-gray-600 mb-2">Adress:</label>
+          <label className="block text-lg text-gray-600 mb-2">Address:</label>
           <input
             type="text"
-            name="adress"
-            value={formData.adress}
+            name="pelanggan_alamat"
+            value={formData.pelanggan_alamat}
             onChange={handleChange}
             required
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500"

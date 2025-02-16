@@ -28,9 +28,9 @@ const EditUserPage = () => {
   }, [userId, router]);
 
   // Handle form submission
-  const handleSubmit = async (updatedUser: User) => {
+  const handleSubmit = async (user: Omit<User, "id">) => {
     try {
-      await updateUser(updatedUser);
+      await updateUser(user);
       router.push("/dashboard/admin/data-pelanggan"); // Kembali ke halaman utama setelah update
     } catch (error) {
       console.error("Failed to update user:", error);
