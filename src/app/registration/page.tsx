@@ -1,42 +1,89 @@
+"use client";
+
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { useState } from "react";
+
+
+interface RegisterData {
+  name: string;
+  email: string;
+  password: string;
+}
 
 const Registration = () => {
-  return (
-    <>
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
-      {/* Logo di Atas Form */}
-      {/* <a
-        href="https://flowbite.com/"
-        className="flex items-center space-x-3 mb-6"
-      > */}
-        <img
-          src="logo.jpg"
-          className="h-48"
-          alt="Rentronix"
-        />
-      {/* </a> */}
+  const [formData, setFormData] = useState<RegisterData>({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [errorMessage, setErrorMessage] = useState("");
 
-      {/* Form */}
-      <form className="w-full max-w-md p-10 pb-16 border border-gray-300 rounded-lg shadow-md bg-white dark:bg-gray-700 dark:border-gray-600">
+  const mutation = useMutation({
+    mutationFn: async (data: RegisterData) => {
+      const response = await axios.post(
+        "https://final-project-app.aran8276.site/api/v1/auth/register",
+        data
+      );
+      return response.data;
+    },
+    onError: (error: AxiosError<{ message?: string }>) => {
+      setErrorMessage(
+        error.response?.data?.message || "Registrasi gagal, coba lagi!"
+      );
+    },
+    onSuccess: () => {
+      alert("Registrasi berhasil! Silakan login.");
+      window.location.href = "/login";
+    },
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setErrorMessage("");
+
+    if (!formData.name || !formData.email || !formData.password) {
+      setErrorMessage("Semua bidang harus diisi!");
+      return;
+    }
+
+    mutation.mutate(formData);
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
+      <img src="logo.jpg" className="h-48" alt="Rentronix" />
+
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-md p-10 pb-16 border border-gray-300 rounded-lg shadow-md bg-white dark:bg-gray-700 dark:border-gray-600"
+      >
         <h1 className="text-3xl font-semibold text-gray-900 mb-6 dark:text-white">
           Daftar dulu, yuk
         </h1>
 
-        {/* Input Nama */}
-        <label
-            htmlFor="name"
-            className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
-          >
-            Nama
-          </label>
-          <input
-            type="text"
-            id="name"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 mb-6 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-            placeholder="Nama Lengkap"
-            required
-          />
+        {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
 
-        {/* Input Email */}
+        <label
+          htmlFor="name"
+          className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
+        >
+          Nama
+        </label>
+        <input
+          type="text"
+          id="name"
+          value={formData.name}
+          onChange={handleChange}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 mb-6 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+          placeholder="Nama Lengkap"
+          required
+        />
+
         <label
           htmlFor="email"
           className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
@@ -46,12 +93,13 @@ const Registration = () => {
         <input
           type="email"
           id="email"
+          value={formData.email}
+          onChange={handleChange}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 mb-6 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
           placeholder="name@example.com"
           required
         />
 
-        {/* Input Password */}
         <label
           htmlFor="password"
           className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
@@ -61,17 +109,15 @@ const Registration = () => {
         <input
           type="password"
           id="password"
+          value={formData.password}
+          onChange={handleChange}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 mb-6 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
           placeholder="••••••"
           required
         />
 
-        {/* Tombol Daftar */}
-        <button
-          type="submit"
-          className="w-full text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-base px-5 py-3 text-center"
-        >
-          Lanjutkan
+        <button type="submit" disabled={mutation.status === "pending"}>
+          {mutation.status === "pending" ? "Mendaftar..." : "Lanjutkan"}
         </button>
 
         <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">
@@ -86,7 +132,6 @@ const Registration = () => {
         </p>
       </form>
     </div>
-    </>
   );
 };
 

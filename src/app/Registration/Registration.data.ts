@@ -6,4 +6,5 @@ export const RegistrationInitialValues: RegistrationPayload = {
   email: "",
   password: "",
   konfirmasiPassword: "",
+  
 };
