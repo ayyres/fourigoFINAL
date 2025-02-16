@@ -34,7 +34,6 @@ export default function RootLayout({
           <Navbar />
           {children}
         </QueryProvider>
-        {children}
       </body>
     </html>
   );
