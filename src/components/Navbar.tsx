@@ -9,7 +9,7 @@ const Navbar = () => {
           <Link href="https://flowbite.com/">
             <img
               src="/logo.jpg"
-              className="max-h-36 object-contain" 
+              className="max-h-28 object-contain" 
               alt="Rentronix"
             />
           </Link>
