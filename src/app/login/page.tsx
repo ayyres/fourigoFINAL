@@ -1,25 +1,68 @@
-import React from "react";
+"use client";
 
-const page = () => {
+import React, { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+
+const LoginPage = () => {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const loginMutation = useMutation({
+    mutationFn: async (credentials: { email: string; password: string }) => {
+      const response = await fetch(
+        "https://final-project-app.aran8276.site/api/v1/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(credentials),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Login gagal. Periksa kembali email dan password.");
+      }
+
+      return response.json();
+    },
+    onSuccess: (data) => {
+      // Simpan token ke localStorage (opsional, tergantung mekanisme autentikasi backend)
+      localStorage.setItem("token", data.token);
+
+      // Redirect ke halaman utama atau dashboard
+      router.push("/dashboard");
+    },
+    onError: (error: any) => {
+      setErrorMessage(error.message);
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage(""); // Reset error message sebelum login
+
+    loginMutation.mutate({ email, password });
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
-      {/* Logo di Atas Form */}
-      {/* <a
-        href="https://flowbite.com/"
-        className="flex items-center space-x-3 mb-6"
-      > */}
-        <img
-          src="logo.jpg"
-          className="h-48"
-          alt="Rentronix"
-        />
-      {/* </a> */}
+      <img src="logo.jpg" className="h-48" alt="Rentronix" />
 
-      {/* Form */}
-      <form className="w-full max-w-md p-10 pb-16 border border-gray-300 rounded-lg shadow-md bg-white dark:bg-gray-700 dark:border-gray-600">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-md p-10 pb-16 border border-gray-300 rounded-lg shadow-md bg-white dark:bg-gray-700 dark:border-gray-600"
+      >
         <h1 className="text-3xl font-semibold text-gray-900 mb-6 dark:text-white">
           Login dulu, yuk
         </h1>
+
+        {errorMessage && (
+          <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
+        )}
 
         {/* Input Email */}
         <label
@@ -31,6 +74,8 @@ const page = () => {
         <input
           type="email"
           id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 mb-6 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
           placeholder="name@example.com"
           required
@@ -46,6 +91,8 @@ const page = () => {
         <input
           type="password"
           id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 mb-6 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
           placeholder="••••••"
           required
@@ -55,8 +102,9 @@ const page = () => {
         <button
           type="submit"
           className="w-full text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-base px-5 py-3 text-center"
+          disabled={loginMutation.isPending}
         >
-          Lanjutkan
+          {loginMutation.isPending ? "Memproses..." : "Lanjutkan"}
         </button>
 
         {/* Link Forgot Password */}
@@ -75,7 +123,7 @@ const page = () => {
         <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">
           Belum punya akun?{" "}
           <a
-            href="/Registration"
+            href="/registration"
             className="font-medium text-blue-600 hover:underline dark:text-blue-500"
           >
             Daftar di sini
@@ -87,4 +135,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default LoginPage;
