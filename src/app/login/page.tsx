@@ -56,7 +56,7 @@ const LoginPage = () => {
   >
 
         <h1 className="text-3xl font-semibold text-gray-900 mb-6 dark:text-white">
-          Login dulu, yuk
+          Login
         </h1>
 
         {errorMessage && (
