@@ -30,10 +30,7 @@ const LoginPage = () => {
       return response.json();
     },
     onSuccess: (data) => {
-      // Simpan token ke localStorage
       localStorage.setItem("accessToken", data.token);
-
-      // Redirect ke halaman dashboard
       router.push("/dashboard");
     },
     onError: (error: any) => {
@@ -49,24 +46,18 @@ const LoginPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
-  <img src="logo.jpg" className="h-36 mb-[-20px]" alt="Rentronix" />
-  <form
-    onSubmit={handleSubmit}
-    className="w-full max-w-md p-8 pt-14 border border-gray-300 rounded-lg shadow-md bg-white dark:bg-gray-700 dark:border-gray-600"
-  >
-
+      <img src="logo.jpg" className="h-36 mb-[-20px]" alt="Rentronix" />
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-md p-8 pt-14 border border-gray-300 rounded-lg shadow-md bg-white dark:bg-gray-700 dark:border-gray-600"
+      >
         <h1 className="text-3xl font-semibold text-gray-900 mb-6 dark:text-white">
           Login
         </h1>
 
-        {errorMessage && (
-          <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
-        )}
+        {errorMessage && <p className="text-red-500 text-sm mb-4">{errorMessage}</p>}
 
-        <label
-          htmlFor="email"
-          className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
-        >
+        <label htmlFor="email" className="block mb-2 text-base font-medium text-gray-900 dark:text-white">
           Email
         </label>
         <input
@@ -79,10 +70,7 @@ const LoginPage = () => {
           required
         />
 
-        <label
-          htmlFor="password"
-          className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
-        >
+        <label htmlFor="password" className="block mb-2 text-base font-medium text-gray-900 dark:text-white">
           Password
         </label>
         <input
@@ -103,12 +91,18 @@ const LoginPage = () => {
           {loginMutation.isPending ? "Memproses..." : "Lanjutkan"}
         </button>
 
-        <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">
-          Belum punya akun?{" "}
+        <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
           <a
-            href="/Registration"
+            href="/forgot-password"
             className="font-medium text-blue-600 hover:underline dark:text-blue-500"
           >
+            Lupa password?
+          </a>
+        </p>
+
+        <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">
+          Belum punya akun?{" "}
+          <a href="/registration" className="font-medium text-blue-600 hover:underline dark:text-blue-500">
             Daftar di sini
           </a>
           .
