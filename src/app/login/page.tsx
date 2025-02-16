@@ -102,6 +102,17 @@ const LoginPage = () => {
         >
           {loginMutation.isPending ? "Memproses..." : "Lanjutkan"}
         </button>
+
+        <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">
+          Belum punya akun?{" "}
+          <a
+            href="/Registration"
+            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+          >
+            Daftar di sini
+          </a>
+          .
+        </p>
       </form>
     </div>
   );
