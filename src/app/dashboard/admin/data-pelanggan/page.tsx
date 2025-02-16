@@ -52,10 +52,13 @@ const Page = () => {
     <div className="p-6">
       {/* <div className="bg-white shadow-md rounded-lg p-6"> */}
 
-      <h3 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-4xl lg:text-4xl">
-        <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+      <h3 className="text-4xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-5xl text-center mb-8">
+        <span
+          className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-green-500 hover:from-green-500 hover:to-blue-500
+ transition duration-300"
+        >
           User
-        </span>
+        </span>{" "}
         Data
       </h3>
 

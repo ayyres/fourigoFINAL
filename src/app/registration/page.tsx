@@ -116,9 +116,18 @@ const Registration = () => {
           required
         />
 
-        <button type="submit" disabled={mutation.status === "pending"}>
-          {mutation.status === "pending" ? "Mendaftar..." : "Lanjutkan"}
-        </button>
+<button
+  type="submit"
+  className={`w-full text-white font-medium rounded-lg text-base px-5 py-3 text-center transition duration-300 ${
+    mutation.status === "pending"
+      ? "bg-gray-400 cursor-not-allowed"
+      : "bg-blue-600 hover:bg-blue-700"
+  }`}
+  disabled={mutation.status === "pending"}
+>
+  {mutation.status === "pending" ? "Mendaftar..." : "Lanjutkan"}
+</button>
+
 
         <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">
           Sudah punya akun?{" "}
