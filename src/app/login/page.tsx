@@ -30,10 +30,10 @@ const LoginPage = () => {
       return response.json();
     },
     onSuccess: (data) => {
-      // Simpan token ke localStorage (opsional, tergantung mekanisme autentikasi backend)
-      localStorage.setItem("token", data.token);
+      // Simpan token ke localStorage
+      localStorage.setItem("accessToken", data.token);
 
-      // Redirect ke halaman utama atau dashboard
+      // Redirect ke halaman dashboard
       router.push("/dashboard");
     },
     onError: (error: any) => {
@@ -43,8 +43,7 @@ const LoginPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMessage(""); // Reset error message sebelum login
-
+    setErrorMessage("");
     loginMutation.mutate({ email, password });
   };
 
@@ -64,7 +63,6 @@ const LoginPage = () => {
           <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
         )}
 
-        {/* Input Email */}
         <label
           htmlFor="email"
           className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
@@ -81,7 +79,6 @@ const LoginPage = () => {
           required
         />
 
-        {/* Input Password */}
         <label
           htmlFor="password"
           className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
@@ -98,7 +95,6 @@ const LoginPage = () => {
           required
         />
 
-        {/* Tombol Login */}
         <button
           type="submit"
           className="w-full text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-base px-5 py-3 text-center"
@@ -106,30 +102,6 @@ const LoginPage = () => {
         >
           {loginMutation.isPending ? "Memproses..." : "Lanjutkan"}
         </button>
-
-        {/* Link Forgot Password */}
-        <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-          Lupa password?{" "}
-          <a
-            href="/forgot-password"
-            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-          >
-            Reset di sini
-          </a>
-          .
-        </p>
-
-        {/* Link Registrasi */}
-        <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">
-          Belum punya akun?{" "}
-          <a
-            href="/registration"
-            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-          >
-            Daftar di sini
-          </a>
-          .
-        </p>
       </form>
     </div>
   );
