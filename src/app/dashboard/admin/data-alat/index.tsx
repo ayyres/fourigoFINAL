@@ -1,7 +1,7 @@
 import React from "react";
-import { User } from "../../../../types/types";
 import { fetchUsers } from "@/service/api";
 import DataTable from "./DataTable";
+import { User } from "@/types/types";
 
 interface HomeProps {
   users: User[];
@@ -11,7 +11,11 @@ const Home: React.FC<HomeProps> = ({ users }) => {
   return (
     <div>
       <h1>User Data</h1>
-      <DataTable data={users} />
+      <DataTable
+        data={users}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
     </div>
   );
 };

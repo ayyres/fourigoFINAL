@@ -17,7 +17,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, onEdit, onDelete }) => {
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table className="w-full text-base text-left text-gray-600 dark:text-gray-300"> 
+      <table className="w-full text-base text-left text-gray-600 dark:text-gray-300">
         <thead className="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">
@@ -31,6 +31,9 @@ const DataTable: React.FC<DataTableProps> = ({ data, onEdit, onDelete }) => {
             </th>
             <th scope="col" className="px-6 py-3">
               Phone
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Adress
             </th>
             <th scope="col" className="px-6 py-3">
               Action
@@ -52,6 +55,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, onEdit, onDelete }) => {
               <td className="px-6 py-4">{user.name}</td>
               <td className="px-6 py-4">{user.email}</td>
               <td className="px-6 py-4">{user.phone}</td>
+              <td className="px-6 py-4">{user.adress}</td>
               <td className="px-6 py-4 space-x-4">
                 <button
                   onClick={() =>
