@@ -1,4 +1,4 @@
-import { User } from "@/types/types";
+import { Sewa } from "@/types/types";
 
 const API_URL = "https://final-project-app.aran8276.site/api/v1/pelanggan";
 
@@ -7,8 +7,8 @@ const getToken = (): string | null => {
   return localStorage.getItem("token");
 };
 
-// Fetch all users (hanya jika ada token)
-export const fetchUsers = async (): Promise<User[]> => {
+// Fetch all Sewas (hanya jika ada token)
+export const fetchSewas = async (): Promise<Sewa[]> => {
   const token = getToken();
   if (!token) {
     throw new Error("Unauthorized: No authentication token found");
@@ -24,14 +24,14 @@ export const fetchUsers = async (): Promise<User[]> => {
 
   if (!res.ok) {
     const errorResponse = await res.json();
-    throw new Error(errorResponse.message || "Failed to fetch users");
+    throw new Error(errorResponse.message || "Failed to fetch Sewa");
   }
 
   return res.json();
 };
 
-// Create a new user (hanya jika ada token)
-export const createUser = async (user: Omit<User, "id">): Promise<User> => {
+// Create a new Sewa (hanya jika ada token)
+export const createSewa = async (Sewa: Omit<Sewa, "id">): Promise<Sewa> => {
   const token = getToken();
   if (!token) {
     throw new Error("Unauthorized: No authentication token found");
@@ -43,43 +43,43 @@ export const createUser = async (user: Omit<User, "id">): Promise<User> => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(user),
+    body: JSON.stringify(Sewa),
   });
 
   const responseData = await res.json();
   if (!res.ok) {
-    throw new Error(responseData.message || "Failed to create user");
+    throw new Error(responseData.message || "Failed to create Sewa");
   }
 
   return responseData;
 };
 
-// Update an existing user (hanya jika ada token)
-export const updateUser = async (user: User): Promise<User> => {
+// Update an existing Sewa (hanya jika ada token)
+export const updateSewa = async (Sewa: Sewa): Promise<Sewa> => {
   const token = getToken();
   if (!token) {
     throw new Error("Unauthorized: No authentication token found");
   }
 
-  const res = await fetch(`${API_URL}/${user.id}`, {
+  const res = await fetch(`${API_URL}/${Sewa.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(user),
+    body: JSON.stringify(Sewa),
   });
 
   const responseData = await res.json();
   if (!res.ok) {
-    throw new Error(responseData.message || "Failed to update user");
+    throw new Error(responseData.message || "Failed to update Sewa");
   }
 
   return responseData;
 };
 
-// Delete a user (hanya jika ada token)
-export const deleteUser = async (id: number): Promise<void> => {
+// Delete a Sewa (hanya jika ada token)
+export const deleteSewa = async (id: number): Promise<void> => {
   const token = getToken();
   if (!token) {
     throw new Error("Unauthorized: No authentication token found");
@@ -94,12 +94,12 @@ export const deleteUser = async (id: number): Promise<void> => {
 
   if (!res.ok) {
     const errorResponse = await res.json();
-    throw new Error(errorResponse.message || "Failed to delete user");
+    throw new Error(errorResponse.message || "Failed to delete Sewa");
   }
 };
 
-// Fetch user by ID (hanya jika ada token)
-export const fetchUserById = async (id: number): Promise<User> => {
+// Fetch Sewa by ID (hanya jika ada token)
+export const fetchSewaById = async (id: number): Promise<Sewa> => {
   const token = getToken();
   if (!token) {
     throw new Error("Unauthorized: No authentication token found");
@@ -115,7 +115,7 @@ export const fetchUserById = async (id: number): Promise<User> => {
 
   if (!res.ok) {
     const errorResponse = await res.json();
-    throw new Error(errorResponse.message || "Failed to fetch user");
+    throw new Error(errorResponse.message || "Failed to fetch Sewa");
   }
 
   return res.json();
