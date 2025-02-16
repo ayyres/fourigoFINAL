@@ -4,19 +4,16 @@ const page = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
       {/* Logo di Atas Form */}
-      <a
+      {/* <a
         href="https://flowbite.com/"
         className="flex items-center space-x-3 mb-6"
-      >
+      > */}
         <img
-          src="https://flowbite.com/docs/images/logo.svg"
-          className="h-12"
-          alt="Flowbite Logo"
+          src="logo.jpg"
+          className="h-48"
+          alt="Rentronix"
         />
-        <span className="text-3xl font-semibold text-gray-900 dark:text-white">
-          Flowbite
-        </span>
-      </a>
+      {/* </a> */}
 
       {/* Form */}
       <form className="w-full max-w-md p-10 pb-16 border border-gray-300 rounded-lg shadow-md bg-white dark:bg-gray-700 dark:border-gray-600">

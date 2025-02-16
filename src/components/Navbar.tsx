@@ -2,20 +2,17 @@ const Navbar = () => {
   return (
     <>
       <nav className="bg-white border-b border-gray-300 dark:bg-gray-900">
-        <div className="max-w-screen-2xl flex items-center justify-between mx-5 p-6">
+        <div className="max-w-screen-2xl flex items-center justify-between mx-5 p-4">
           {/* Logo di Pojok Kiri */}
           <a
             href="https://flowbite.com/"
             className="flex items-center space-x-3 flex-shrink-0"
           >
             <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8"
-              alt="Flowbite Logo"
+              src="logo.jpg"
+              className="h-24 object-contain" // Ukuran logo lebih besar dan tetap proporsional
+              alt="Rentronix"
             />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Flowbite
-            </span>
           </a>
 
           {/* Search Bar */}
@@ -24,7 +21,7 @@ const Navbar = () => {
               <input
                 type="search"
                 id="default-search"
-                className="block w-full py-2.5 pr-12 pl-3 text-lg text-gray-900 border border-gray-300 rounded-lg bg-transparent focus:ring-blue-500 focus:border-blue-500"
+                className="block w-full py-2 pr-12 pl-3 text-lg text-gray-900 border border-gray-300 rounded-lg bg-transparent focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Aku mau belanja...."
                 required
               />

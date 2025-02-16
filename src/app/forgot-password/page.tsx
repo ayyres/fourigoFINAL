@@ -5,13 +5,10 @@ const ForgotPassword = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
       <a href="/" className="flex items-center space-x-3 mb-6">
         <img
-          src="https://flowbite.com/docs/images/logo.svg"
+          src="logo.jpg"
           className="h-12"
-          alt="Flowbite Logo"
+          alt="Rentronix"
         />
-        <span className="text-3xl font-semibold text-gray-900 dark:text-white">
-          Flowbite
-        </span>
       </a>
       //Form Reset Password
       <form className="w-full max-w-md p-10 pd-16 border border-gray-300 rounded-lg shadow-md bg-white dark:bg-gray-700 drak:border-gray-600">
