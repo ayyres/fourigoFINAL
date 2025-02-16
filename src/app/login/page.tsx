@@ -30,7 +30,17 @@ const LoginPage = () => {
       return response.json();
     },
     onSuccess: (data) => {
-      localStorage.setItem("accessToken", data.token);
+      console.log("Login response:", data); // Debugging
+
+      if (!data.access_token) {
+        setErrorMessage("Login berhasil tetapi token tidak ditemukan.");
+        return;
+      }
+
+      // Simpan token dan data user ke localStorage
+      localStorage.setItem("accessToken", data.access_token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
       router.push("/dashboard");
     },
     onError: (error: any) => {
@@ -55,9 +65,14 @@ const LoginPage = () => {
           Login
         </h1>
 
-        {errorMessage && <p className="text-red-500 text-sm mb-4">{errorMessage}</p>}
+        {errorMessage && (
+          <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
+        )}
 
-        <label htmlFor="email" className="block mb-2 text-base font-medium text-gray-900 dark:text-white">
+        <label
+          htmlFor="email"
+          className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
+        >
           Email
         </label>
         <input
@@ -70,7 +85,10 @@ const LoginPage = () => {
           required
         />
 
-        <label htmlFor="password" className="block mb-2 text-base font-medium text-gray-900 dark:text-white">
+        <label
+          htmlFor="password"
+          className="block mb-2 text-base font-medium text-gray-900 dark:text-white"
+        >
           Password
         </label>
         <input
@@ -102,7 +120,10 @@ const LoginPage = () => {
 
         <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">
           Belum punya akun?{" "}
-          <a href="/registration" className="font-medium text-blue-600 hover:underline dark:text-blue-500">
+          <a
+            href="/registration"
+            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+          >
             Daftar di sini
           </a>
           .
