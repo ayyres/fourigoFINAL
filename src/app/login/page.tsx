@@ -49,12 +49,12 @@ const LoginPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
-      <img src="logo.jpg" className="h-48" alt="Rentronix" />
+  <img src="logo.jpg" className="h-36 mb-[-20px]" alt="Rentronix" />
+  <form
+    onSubmit={handleSubmit}
+    className="w-full max-w-md p-8 pt-14 border border-gray-300 rounded-lg shadow-md bg-white dark:bg-gray-700 dark:border-gray-600"
+  >
 
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md p-10 pb-16 border border-gray-300 rounded-lg shadow-md bg-white dark:bg-gray-700 dark:border-gray-600"
-      >
         <h1 className="text-3xl font-semibold text-gray-900 mb-6 dark:text-white">
           Login dulu, yuk
         </h1>
