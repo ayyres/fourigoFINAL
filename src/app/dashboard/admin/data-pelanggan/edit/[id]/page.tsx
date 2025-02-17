@@ -8,37 +8,60 @@ import { User } from "@/types/types";
 
 const EditUserPage = () => {
   const router = useRouter();
-  const params = useParams(); // Ambil parameter dari URL
-  const userId = params.id as string; // Ambil ID dari URL
-
+  const params = useParams();
+  const userId = params?.id as string;
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  console.log(user);
 
-  // Fetch user data based on ID
   useEffect(() => {
+    if (!userId) {
+      console.error("User ID is undefined. Cannot fetch data.");
+      return;
+    }
+
     const loadUser = async () => {
       try {
+        console.log("Fetching user with ID:", userId);
         const data = await fetchUserById(Number(userId));
+        console.log("Fetched user data:", data);
+
+        if (!data.data.pelanggan_id) {
+          console.error("Fetched data does not contain pelanggan_id!");
+        }
+
         setUser(data);
       } catch (error) {
         console.error("Failed to fetch user:", error);
-        router.push("/dashboard/admin/data-pelanggan"); // Redirect jika gagal
+        router.push("/dashboard/admin/data-pelanggan");
+      } finally {
+        setLoading(false);
       }
     };
+
     loadUser();
   }, [userId, router]);
 
-  // Handle form submission
-  const handleSubmit = async (user: Omit<User, "id">) => {
+  const handleSubmit = async (updatedUser: User) => {
     try {
-      await updateUser(user);
-      router.push("/dashboard/admin/data-pelanggan"); // Kembali ke halaman utama setelah update
+      // if (!updatedUser.pelanggan_id) {
+      //   throw new Error("User ID is undefined. Cannot update.");
+      // }
+
+      console.log("Submitting updated user data:", updatedUser);
+      await updateUser(updatedUser);
+      router.push("/dashboard/admin/data-pelanggan");
     } catch (error) {
       console.error("Failed to update user:", error);
     }
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   if (!user) {
-    return <div>Loading...</div>; // Tampilkan loading jika data belum diambil
+    return <div>Error: User data not found.</div>;
   }
 
   return (

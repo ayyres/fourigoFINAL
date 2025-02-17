@@ -2,10 +2,11 @@
 
 import { User } from "@/types/types";
 import React, { useState } from "react";
+import { useParams } from "next/navigation";
 
 interface UserFormProps {
   initialData?: User;
-  onSubmit: (user: User | Omit<User, "id">) => void;
+  onSubmit: (user: User | Omit<User, "pelanggan_id">) => void;
   onCancel: () => void;
   disabled?: boolean;
 }
@@ -15,14 +16,13 @@ const UserForm: React.FC<UserFormProps> = ({
   onSubmit,
   onCancel,
 }) => {
-  const [formData, setFormData] = useState<Omit<User, "pelanggan_id"> | User>({
+  const {id}=useParams();
+  const [formData, setFormData] = useState<User>({
+    pelanggan_id: id || 0,
     pelanggan_nama: initialData?.pelanggan_nama || "",
     pelanggan_email: initialData?.pelanggan_email || "",
     pelanggan_notelp: initialData?.pelanggan_notelp || "",
     pelanggan_alamat: initialData?.pelanggan_alamat || "",
-    ...(initialData?.pelanggan_id
-      ? { pelanggan_id: initialData.pelanggan_id }
-      : {}),
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,11 +32,14 @@ const UserForm: React.FC<UserFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(
-      "pelanggan_id" in formData
-        ? (formData as User) // Jika update, kirim User lengkap
-        : (formData as Omit<User, "id">) // Jika create, hapus pelanggan_id
-    );
+    console.log("Submitting form data:", formData.pelanggan_id);
+
+    if (!("pelanggan_id" in formData)) {
+      console.error("Error: pelanggan_id is missing!");
+      return;
+    }
+
+    onSubmit(formData);
   };
 
   return (
