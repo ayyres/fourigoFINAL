@@ -4,7 +4,7 @@ const API_URL = "https://final-project-app.aran8276.site/api/v1/pelanggan";
 
 // Fungsi untuk mendapatkan token dari localStorage
 const getToken = (): string | null => {
-  return localStorage.getItem("token");
+  return localStorage.getItem("accessToken");
 };
 
 export const fetchUsers = async (): Promise<User[]> => {
