@@ -30,7 +30,7 @@ export default function RootLayout({
         <Sidebar />
         <AuthProvider>
           <QueryProvider>
-            <div className="ml-64">{children}</div>
+            <div className="ml-64 mt-16">{children}</div>
           </QueryProvider>
         </AuthProvider>
       </body>

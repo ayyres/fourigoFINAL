@@ -11,10 +11,10 @@ const page = () => {
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-          <div className="flex items-center space-x-4">
+          {/* <div className="flex items-center space-x-4">
             <span className="text-gray-700 dark:text-gray-300">Halo, <b>User</b></span>
             <img src="/profile.jpg" alt="User Profile" className="w-10 h-10 rounded-full border" />
-          </div>
+          </div> */}
         </div>
 
         {/* Statistik */}
