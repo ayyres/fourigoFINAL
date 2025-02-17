@@ -52,15 +52,12 @@ const Page = () => {
     <div className="p-6">
       {/* <div className="bg-white shadow-md rounded-lg p-6"> */}
 
-      <h3 className="text-4xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-5xl text-center mb-8">
-        <span
-          className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-green-500 hover:from-green-500 hover:to-blue-500
- transition duration-300"
-        >
-          User
-        </span>{" "}
-        Data
-      </h3>
+      <h3 className="mb-4 text-2xl font-extrabold text-center leading-none tracking-tight text-gray-900 md:text-2xl lg:text-5xl dark:text-white">
+          User{" "}
+          <span className="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600">
+            Data
+          </span>
+        </h3>
 
       <button
         onClick={handleAddUserClick}
