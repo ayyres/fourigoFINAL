@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
-import "./globals.css";
-import Navbar from "@/components/Navbar"; // Pastikan path ke Navbar sudah benar
 import QueryProvider from "@/providers/QueryProvider";
 import { AuthProvider } from "@/context/AuthContext";
+import Sidebar from "./Sidebar";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -28,11 +27,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${robotoMono.variable} antialiased`}>
-        <Navbar />
+        <Sidebar />
         <AuthProvider>
           <QueryProvider>
-            <div className="mt-24">{children}</div>
-            </QueryProvider>
+            <div className="ml-64">{children}</div>
+          </QueryProvider>
         </AuthProvider>
       </body>
     </html>

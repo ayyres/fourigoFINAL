@@ -39,7 +39,7 @@ const Navbar = () => {
             </ul>
           </div>
 
-          {/* Search Bar */}
+          {/* Search Bar
           <form className="w-full max-w-md ml-4">
             <div className="relative w-full">
               <input
@@ -72,11 +72,9 @@ const Navbar = () => {
                 </svg>
               </button>
             </div>
-          </form>
+          </form> */}
         </div>
       </nav>
-      {/* Tambahkan padding di atas konten agar tidak tertutup navbar */}
-      <div className="pt-20"></div>
     </>
   );
 };
