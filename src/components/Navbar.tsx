@@ -45,10 +45,11 @@ const Navbar = () => {
               <input
                 type="search"
                 id="default-search"
-                className="block w-full py-1 pr-12 pl-3 text-lg text-gray-900 border border-gray-300 rounded-lg bg-transparent focus:ring-blue-500 focus:border-blue-500"
+                className="block w-full py-3 pr-12 pl-4 text-lg text-gray-900 border border-gray-300 rounded-lg bg-transparent focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Aku mau belanja...."
                 required
               />
+
               <span className="absolute inset-y-0 right-14 w-px bg-gray-400 opacity-30"></span>
               <button
                 type="submit"
