@@ -16,7 +16,7 @@ const UserForm: React.FC<UserFormProps> = ({
   onSubmit,
   onCancel,
 }) => {
-  const {id}=useParams();
+  const { id } = useParams();
   const [formData, setFormData] = useState<User>({
     pelanggan_id: id || 0,
     pelanggan_nama: initialData?.pelanggan_nama || "",
