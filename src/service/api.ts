@@ -30,7 +30,9 @@ export const fetchUsers = async (): Promise<User[]> => {
 };
 
 // Create a new user (hanya jika ada token)
-export const createUser = async (user: Omit<User, "id">): Promise<User> => {
+export const createUser = async (
+  user: Omit<User, "pelanggan_id">
+): Promise<User> => {
   const token = getToken();
   if (!token) {
     throw new Error("Unauthorized: No authentication token found");
@@ -54,11 +56,18 @@ export const createUser = async (user: Omit<User, "id">): Promise<User> => {
 };
 
 // Update an existing user (hanya jika ada token)
-export const updateUser = async (user: Omit<User, "id">): Promise<User> => {
+export const updateUser = async (user: User): Promise<User> => {
   const token = getToken();
   if (!token) {
     throw new Error("Unauthorized: No authentication token found");
   }
+
+  console.log("Updating user:", user);
+
+  // if (!user.pelanggan_id) {
+  //   console.error("Error: pelanggan_id is missing!", user);
+  //   throw new Error("User ID is undefined. Cannot update.");
+  // }
 
   const res = await fetch(`${API_URL}/${user.pelanggan_id}`, {
     method: "PUT",
@@ -70,7 +79,9 @@ export const updateUser = async (user: Omit<User, "id">): Promise<User> => {
   });
 
   const responseData = await res.json();
+
   if (!res.ok) {
+    console.error("Update error response:", responseData);
     throw new Error(responseData.message || "Failed to update user");
   }
 
