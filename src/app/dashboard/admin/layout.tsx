@@ -29,7 +29,9 @@ export default function RootLayout({
       <body className={`${inter.variable} ${robotoMono.variable} antialiased`}>
         <Navbar />
         <AuthProvider>
-          <QueryProvider>{children}</QueryProvider>
+          <QueryProvider>
+            <div className="mt-24">{children}</div>
+            </QueryProvider>
         </AuthProvider>
       </body>
     </html>
