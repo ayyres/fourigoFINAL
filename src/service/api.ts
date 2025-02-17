@@ -7,7 +7,6 @@ const getToken = (): string | null => {
   return localStorage.getItem("token");
 };
 
-// Fetch all users (hanya jika ada token)
 export const fetchUsers = async (): Promise<User[]> => {
   const token = getToken();
   if (!token) {
@@ -55,13 +54,13 @@ export const createUser = async (user: Omit<User, "id">): Promise<User> => {
 };
 
 // Update an existing user (hanya jika ada token)
-export const updateUser = async (user: User): Promise<User> => {
+export const updateUser = async (user: Omit<User, "id">): Promise<User> => {
   const token = getToken();
   if (!token) {
     throw new Error("Unauthorized: No authentication token found");
   }
 
-  const res = await fetch(`${API_URL}/${user.id}`, {
+  const res = await fetch(`${API_URL}/${user.pelanggan_id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -79,13 +78,13 @@ export const updateUser = async (user: User): Promise<User> => {
 };
 
 // Delete a user (hanya jika ada token)
-export const deleteUser = async (id: number): Promise<void> => {
+export const deleteUser = async (pelanggan_id: number): Promise<void> => {
   const token = getToken();
   if (!token) {
     throw new Error("Unauthorized: No authentication token found");
   }
 
-  const res = await fetch(`${API_URL}/${id}`, {
+  const res = await fetch(`${API_URL}/${pelanggan_id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -99,13 +98,13 @@ export const deleteUser = async (id: number): Promise<void> => {
 };
 
 // Fetch user by ID (hanya jika ada token)
-export const fetchUserById = async (id: number): Promise<User> => {
+export const fetchUserById = async (pelanggan_id: number): Promise<User> => {
   const token = getToken();
   if (!token) {
     throw new Error("Unauthorized: No authentication token found");
   }
 
-  const res = await fetch(`${API_URL}/${id}`, {
+  const res = await fetch(`${API_URL}/${pelanggan_id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
