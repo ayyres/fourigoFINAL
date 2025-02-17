@@ -7,7 +7,7 @@ const Navbar = () => {
         <div className="max-w-screen-2xl flex items-center justify-between mx-5 p-4">
           {/* Logo di Pojok Kiri */}
           <div className="">
-            <Link href="/dashboard">
+            <Link href="/dashboard/admin">
               <img
                 src="/logo.jpg"
                 className="max-h-48 max-w-48 object-contain"

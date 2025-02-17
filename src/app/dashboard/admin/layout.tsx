@@ -4,7 +4,6 @@ import Navbar from "@/components/Navbar"; // Pastikan path ke Navbar sudah benar
 import QueryProvider from "@/providers/QueryProvider";
 import { AuthProvider } from "@/context/AuthContext";
 
-
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -27,14 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable} ${robotoMono.variable} antialiased`}
-      >
-        <Navbar/>
+      <body className={`${inter.variable} ${robotoMono.variable} antialiased`}>
+        <Navbar />
         <AuthProvider>
-        <QueryProvider>
-          {children}
-        </QueryProvider>
+          <QueryProvider>{children}</QueryProvider>
         </AuthProvider>
       </body>
     </html>
