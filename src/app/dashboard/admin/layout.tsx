@@ -3,7 +3,7 @@ import { Inter, Roboto_Mono } from "next/font/google";
 import Navbar from "@/components/Navbar"; // Pastikan path ke Navbar sudah benar
 import QueryProvider from "@/providers/QueryProvider";
 import { AuthProvider } from "@/context/AuthContext";
-import Footer from "../Footer";
+import Footer from "../../../components/Footer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,10 +30,9 @@ export default function RootLayout({
       <body className={`${inter.variable} ${robotoMono.variable} antialiased`}>
         <Navbar />
         <AuthProvider>
-          <QueryProvider>
-            <div className="mt-24">{children}</div>
-          </QueryProvider>
+          <QueryProvider>{children}</QueryProvider>
         </AuthProvider>
+        <Footer />
       </body>
     </>
   );

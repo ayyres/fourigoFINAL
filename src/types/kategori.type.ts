@@ -1,5 +1,4 @@
-    export interface Kategori {
-        kategori_nama:string;
-        kategori_id:number;
-    }
-    
+export interface Kategori {
+  kategori_id: number | string | undefined | string[];
+  kategori_nama: string;
+}

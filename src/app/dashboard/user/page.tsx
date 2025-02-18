@@ -69,6 +69,55 @@ export default function AlatList() {
           </p>
         </div>
 
+        {/* Statistik */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <Card>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Total Alat</h2>
+            <p className="text-3xl font-bold text-blue-600">{totalTools}</p>
+          </Card>
+          <Card>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Alat Disewa</h2>
+            <p className="text-3xl font-bold text-blue-600">{rentedTools}</p>
+          </Card>
+          <Card>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Pesanan Baru</h2>
+            <p className="text-3xl font-bold text-blue-600">{newOrders}</p>
+          </Card>
+        </div>
+
+        {/* Daftar Alat Elektronik */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Daftar Alat Elektronik</h2>
+          <Table>
+            <Table.Head>
+              <Table.HeadCell>Nama Alat</Table.HeadCell>
+              <Table.HeadCell>Kategori</Table.HeadCell>
+              <Table.HeadCell>Status</Table.HeadCell>
+              <Table.HeadCell>Aksi</Table.HeadCell>
+            </Table.Head>
+            <Table.Body className="divide-y">
+              {tools.map((tool, index) => (
+                <Table.Row key={index}>
+                  <Table.Cell>{tool.name}</Table.Cell>
+                  <Table.Cell>{tool.category}</Table.Cell>
+                  <Table.Cell className={tool.status === "Tersedia" ? "text-green-500" : "text-red-500"}>
+                    {tool.status}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {tool.status === "Tersedia" ? (
+                      <a href="#" className="text-blue-600 hover:underline">
+                        Sewa
+                      </a>
+                    ) : (
+                      <span className="text-gray-500">Tidak Tersedia</span>
+                    )}
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </div>
+
         <div className="max-w-4xl mx-auto px-4 py-10">
           <label className="block mb-4 text-lg font-medium text-gray-700 dark:text-gray-300">
             Pilih Kategori
