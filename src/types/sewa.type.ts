@@ -1,8 +1,8 @@
 export interface Sewa {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    adress: string;
-  }
-  
+  penyewaan_id: number;
+  penyewaan_tglsewa: string;
+  penyewaan_tglkembali: string;
+  penyewaan_sttspembayaran: string;
+  penyewaan_sttskembali: string;
+  penyewaan_totalharga: number;
+}
