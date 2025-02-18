@@ -2,25 +2,24 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import UserForm from "../UseForm";
-import { createAlat } from "@/service/alat.api";
-import { Alat } from "@/types/alat.type";
+import UseForm from "./UseForm";
+import { createKategori } from "@/service/api";
+import { Kategori } from "@/types/kategori.type";
 
-const AddAlatPage = () => {
+const AddKategoriPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  console.log("Token:", localStorage.getItem("accessToken"));
 
   // Handle form submission
-  const handleSubmit = async (alat: Omit<Alat, "alat_id">) => {
+  const handleSubmit = async (kategori: Omit<Kategori, "kategori_id">) => {
     try {
       setLoading(true);
       setError(null);
 
-      await createAlat(alat);
+      await createKategori(kategori);
 
-      router.push("/dashboard/admin/data-alat");
+      router.push("/dashboard/admin/kategori");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -30,16 +29,16 @@ const AddAlatPage = () => {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold mb-4">Tambah Pengguna</h2>
+      <h2 className="text-lg font-semibold mb-4">Tambah Kategori</h2>
       {error && <p className="text-red-500">{error}</p>}
-      <UserForm
+      <UseForm
         onSubmit={handleSubmit}
-        onCancel={() => router.push("/dashboard/admin/data-alat")}
+        onCancel={() => router.push("/dashboard/admin/kategori")}
         disabled={loading}
       />
-      {loading && <p className="text-blue-500 mt-2">Loading...</p>}{" "}
+      {loading && <p className="text-blue-500 mt-2">Loading...</p>}
     </div>
   );
 };
 
-export default AddAlatPage;
+export default AddKategoriPage;

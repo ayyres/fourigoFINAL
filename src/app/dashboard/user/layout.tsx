@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
 import QueryProvider from "@/providers/QueryProvider";
 import { AuthProvider } from "@/context/AuthContext";
-import Sidebar from "./Sidebar";
-import Footer from "../Footer";
+import Sidebar from "../../../components/Sidebar";
+import Footer from "../../../components/Footer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -26,15 +26,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} ${robotoMono.variable} antialiased`}>
-        <Sidebar />
-        <AuthProvider>
-          <QueryProvider>
-            <div className="mt-24">{children}</div>
-          </QueryProvider>
-        </AuthProvider>
-      </body>
-    </html>
+    <>
+      <Sidebar />
+      <div className="mt-24">{children}</div>
+    </>
   );
 }

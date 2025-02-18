@@ -1,25 +1,25 @@
 "use client";
 
-import { Kategori } from "@/types/kategori.type"; // Change User to Category
+import { Kategori } from "@/types/kategori.type";
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
 
-interface CategoryFormProps {
-  initialData?: Kategori; // Change User to Kategori
-  onSubmit: (category: Kategori | Omit<Kategori, "kategori_id">) => void; // Change User to Category
+interface KategoriFormProps {
+  initialData?: Kategori;
+  onSubmit: (kategori: Kategori | Omit<Kategori, "kategori_id">) => void;
   onCancel: () => void;
   disabled?: boolean;
 }
 
-const CategoryForm: React.FC<CategoryFormProps> = ({
+const UserForm: React.FC<KategoriFormProps> = ({
   initialData,
   onSubmit,
   onCancel,
 }) => {
   const { id } = useParams();
   const [formData, setFormData] = useState<Kategori>({
-    kategori_id: id ? parseInt(id) : 0, // Handle the case where id is a string
-    kategori_nama: initialData?.kategori_nama || "", // Set default to initialData if provided
+    kategori_id: id || 0,
+    kategori_nama: initialData?.kategori_nama || "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,14 +29,14 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting form data:", formData.kategori_id); // Log category_id
+    console.log("Submitting form data:", formData.kategori_id);
 
-    if (!("kategori_id" in formData)) { // Check for kategori_id
+    if (!("kategori_id" in formData)) {
       console.error("Error: kategori_id is missing!");
       return;
     }
 
-    onSubmit(formData); // Submit form data
+    onSubmit(formData);
   };
 
   return (
@@ -46,24 +46,25 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
         className="bg-white p-8 rounded-lg shadow-md max-w-2xl w-full mx-4 mt-10 border border-gray-200"
       >
         <h2 className="text-5xl font-extrabold mb-6 text-gray-800 dark:text-white">
-          {initialData ? "Update" : "Create"}{" "}
+          {initialData ? "Update" : "Create"}
           <small className="ms-2 font-semibold text-gray-500 dark:text-gray-400">
-            Category
+            Kategori
           </small>
         </h2>
 
         <div className="mb-6">
-          <label className="block text-lg text-gray-600 mb-2">Category Name:</label>
+          <label className="block text-lg text-gray-600 mb-2">
+            Nama Kategori:
+          </label>
           <input
             type="text"
-            name="kategori_nama" // Use kategori_nama instead of category_name
-            value={formData.kategori_nama} // Bind to kategori_nama
+            name="kategori_nama"
+            value={formData.kategori_nama}
             onChange={handleChange}
             required
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
           />
         </div>
-
         <div className="flex justify-end space-x-4">
           <button
             type="button"
@@ -84,4 +85,4 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   );
 };
 
-export default CategoryForm;
+export default UserForm;

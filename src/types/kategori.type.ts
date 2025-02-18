@@ -1,5 +1,4 @@
-    export interface Kategori {
-        kategori_nama:string;
-        kategori_id:number;
-    }
-    
+export interface Kategori {
+  kategori_id: number;
+  kategori_nama: string;
+}

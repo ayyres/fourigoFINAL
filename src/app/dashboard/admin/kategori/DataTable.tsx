@@ -5,8 +5,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { fetchKategori } from "@/service/kategori.api";
 
 const DataTable: React.FC = () => {
+  const getToken = (): string | null => {
+    return localStorage.getItem("accessToken");
+  };
   const router = useRouter();
   const [data, setData] = useState<Kategori[]>([]);
   const [loading, setLoading] = useState(true);
@@ -17,9 +21,17 @@ const DataTable: React.FC = () => {
   }, []);
 
   const fetchData = async () => {
+    const token = getToken();
     try {
       const response = await fetch(
-        "https://final-project-app.aran8276.site/api/v1/kategori"
+        "https://final-project-app.aran8276.site/api/v1/kategori",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const result = await response.json();
 
@@ -39,8 +51,9 @@ const DataTable: React.FC = () => {
   };
 
   const handleDelete = async (kategori_id: number) => {
+    const token = getToken();
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this user?"
+      "Are you sure you want to delete this kategori?"
     );
     if (!confirmDelete) return;
 
@@ -49,6 +62,10 @@ const DataTable: React.FC = () => {
         `https://final-project-app.aran8276.site/api/v1/kategori/${kategori_id}`,
         {
           method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -57,7 +74,7 @@ const DataTable: React.FC = () => {
       }
 
       setData((prevData) =>
-        prevData.filter((category) => category.kategori_id !== kategori_id)
+        prevData.filter((kategori) => kategori.kategori_id !== kategori_id)
       );
       console.log(`User with ID ${kategori_id} deleted successfully`);
     } catch (error) {
@@ -78,28 +95,28 @@ const DataTable: React.FC = () => {
           <tr>
             <th className="px-6 py-4">ID</th>
             <th className="px-6 py-4">Name</th>
+            <th className="px-6 py-4">Action</th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-300 dark:bg-gray-900 dark:divide-gray-700">
-          {data.map((user, index) => (
+          {data.map((kategori, index) => (
             <tr
-              key={user.kategori_id || index}
+              key={kategori.kategori_id || index}
               className="hover:bg-blue-50 dark:hover:bg-gray-800 transition duration-300"
             >
               <td className="px-6 py-4 font-bold text-gray-900 dark:text-white">
-                {user.kategori_id}
+                {kategori.kategori_id}
               </td>
-              <td className="px-6 py-4">{user.kategori_nama}</td>
-              <td className="px-6 py-4">{user.kategori_id}</td>
+              <td className="px-6 py-4">{kategori.kategori_nama}</td>
               <td className="px-6 py-4 flex justify-center space-x-3">
                 <Link
                   href={
-                    user.kategori_id
-                      ? `/dashboard/admin/kategori${user.kategori_id}`
+                    kategori.kategori_id
+                      ? `/dashboard/admin/kategori/edit/${kategori.kategori_id}`
                       : "#"
                   }
                   onClick={(e) => {
-                    if (!user.kategori_id) {
+                    if (!kategori.kategori_id) {
                       e.preventDefault();
                       console.error("Error: User ID is missing");
                     }
@@ -116,7 +133,7 @@ const DataTable: React.FC = () => {
                   <span>Edit</span>
                 </Link>
                 <button
-                  onClick={() => handleDelete(user.kategori_id)}
+                  onClick={() => handleDelete(kategori.kategori_id)}
                   className="flex items-center space-x-2 px-4 py-2 text-lg font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300"
                 >
                   <Image

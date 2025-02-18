@@ -3,8 +3,7 @@ import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/providers/QueryProvider";
 import { AuthProvider } from "@/context/AuthContext";
-import Footer from "./dashboard/Footer";
-
+import Footer from "../components/Footer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,11 +29,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${robotoMono.variable} antialiased`}>
         <AuthProvider>
-          <QueryProvider> 
-            <div>{children}</div>
-            </QueryProvider>
+          <QueryProvider>
+           {children}
+          </QueryProvider>
         </AuthProvider>
-        <Footer/>
       </body>
     </html>
   );
