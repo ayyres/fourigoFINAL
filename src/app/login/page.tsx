@@ -41,7 +41,7 @@ const LoginPage = () => {
       localStorage.setItem("accessToken", data.access_token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      router.push("/dashboard");
+      router.push("/dashboard/admin");
     },
     onError: (error: any) => {
       setErrorMessage(error.message);
@@ -110,12 +110,20 @@ const LoginPage = () => {
         </button>
 
         <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-          <a
-            href="/forgot-password"
-            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-          >
-            Lupa password?
-          </a>
+          <div className="flex justify-between">
+            <a
+              href="/forgot-password"
+              className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+            >
+              Lupa password?
+            </a>
+            <a
+              href="/dashboard/user"
+              className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+            >
+              Login as Guess
+            </a>
+          </div>
         </p>
 
         <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">
