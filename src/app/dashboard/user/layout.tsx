@@ -3,6 +3,7 @@ import { Inter, Roboto_Mono } from "next/font/google";
 import QueryProvider from "@/providers/QueryProvider";
 import { AuthProvider } from "@/context/AuthContext";
 import Sidebar from "./Sidebar";
+import Footer from "../Footer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,7 +31,7 @@ export default function RootLayout({
         <Sidebar />
         <AuthProvider>
           <QueryProvider>
-            <div className="mt-16">{children}</div>
+            <div className="mt-24">{children}</div>
           </QueryProvider>
         </AuthProvider>
       </body>
