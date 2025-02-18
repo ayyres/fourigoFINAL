@@ -13,7 +13,7 @@ const AddAlatPage = () => {
   console.log("Token:", localStorage.getItem("accessToken"));
 
   // Handle form submission
-  const handleSubmit = async (alat: Omit<Alat, "id">) => {
+  const handleSubmit = async (alat: Omit<Alat, "alat_id">) => {
     try {
       setLoading(true);
       setError(null);
@@ -31,7 +31,7 @@ const AddAlatPage = () => {
   return (
     <div>
       <h2 className="text-lg font-semibold mb-4">Tambah Pengguna</h2>
-      {error && <p className="text-red-500">{error}</p>}{" "}
+      {error && <p className="text-red-500">{error}</p>}
       <UserForm
         onSubmit={handleSubmit}
         onCancel={() => router.push("/dashboard/admin/data-alat")}

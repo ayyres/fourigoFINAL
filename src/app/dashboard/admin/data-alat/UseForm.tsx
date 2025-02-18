@@ -4,14 +4,14 @@ import { Alat } from "@/types/alat.type";
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 
-interface UserFormProps {
+interface AlatFormProps {
   initialData?: Alat;
   onSubmit: (user: Alat | Omit<Alat, "alat_id">) => void;
   onCancel: () => void;
   disabled?: boolean;
 }
 
-const UserForm: React.FC<UserFormProps> = ({
+const UserForm: React.FC<AlatFormProps> = ({
   initialData,
   onSubmit,
   onCancel,
@@ -31,12 +31,24 @@ const UserForm: React.FC<UserFormProps> = ({
   );
   const [loadingCategories, setLoadingCategories] = useState<boolean>(true);
 
+  const getToken = (): string | null => {
+    return localStorage.getItem("accessToken");
+  };
+
   useEffect(() => {
     // Fetch data kategori dari API
     const fetchCategories = async () => {
+      const token = getToken();
       try {
         const response = await fetch(
-          "https://final-project-app.aran8276.site/api/v1/kategori"
+          "https://final-project-app.aran8276.site/api/v1/kategori",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
         ); // Ganti dengan URL API kategori yang benar
         const data = await response.json();
         setCategories(data);

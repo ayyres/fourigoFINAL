@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
 import QueryProvider from "@/providers/QueryProvider";
 import { AuthProvider } from "@/context/AuthContext";
-import Sidebar from "./Sidebar";
-import Footer from "../Footer";
+import Sidebar from "../../../components/Sidebar";
+import Footer from "../../../components/Footer";
 
 const inter = Inter({
   variable: "--font-inter",
