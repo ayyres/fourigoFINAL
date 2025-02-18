@@ -41,7 +41,12 @@ const LoginPage = () => {
       localStorage.setItem("accessToken", data.access_token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      router.push("/dashboard");
+      // Redirect berdasarkan peran
+      if (data.user.role === "admin") {
+        router.push("Dashboard/admin");
+      } else {
+        router.push("Dashboard/user"); // Ganti ke dashboard pengguna
+      }
     },
     onError: (error: any) => {
       setErrorMessage(error.message);
@@ -52,6 +57,13 @@ const LoginPage = () => {
     e.preventDefault();
     setErrorMessage("");
     loginMutation.mutate({ email, password });
+  };
+
+  const handleGuestLogin = () => {
+    // Arahkan ke halaman user dashboard atau halaman tamu
+    localStorage.setItem("accessToken", "guest_token");
+    localStorage.setItem("user", JSON.stringify({ role: "guest" }));
+    router.push("Dashboard/guest"); // Halaman tamu
   };
 
   return (
@@ -109,6 +121,8 @@ const LoginPage = () => {
           {loginMutation.isPending ? "Memproses..." : "Lanjutkan"}
         </button>
 
+       
+
         <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
           <a
             href="/forgot-password"
@@ -116,6 +130,17 @@ const LoginPage = () => {
           >
             Lupa password?
           </a>
+        </p>
+
+         {/* Link login sebagai tamu */}
+         <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
+          <button
+            type="button"
+            onClick={handleGuestLogin}
+            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+          >
+            Login sebagai Tamu
+          </button>
         </p>
 
         <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">
