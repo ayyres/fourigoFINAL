@@ -26,14 +26,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <>
       <body className={`${inter.variable} ${robotoMono.variable} antialiased`}>
         <Navbar />
         <AuthProvider>
-          <QueryProvider>{children}</QueryProvider>
+          <QueryProvider>
+          <div className="mt-24">{children}</div>
+
+          </QueryProvider>
         </AuthProvider>
         <Footer />
       </body>
-    </html>
+    </>
   );
 }

@@ -26,15 +26,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} ${robotoMono.variable} antialiased`}>
-        <Sidebar />
-        <AuthProvider>
-          <QueryProvider>
-            <div className="mt-24">{children}</div>
-          </QueryProvider>
-        </AuthProvider>
-      </body>
-    </html>
+    <>
+      <Sidebar />
+      <div className="mt-24">{children}</div>
+    </>
   );
 }

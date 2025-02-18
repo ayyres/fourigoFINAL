@@ -54,6 +54,13 @@ const LoginPage = () => {
     loginMutation.mutate({ email, password });
   };
 
+  const handleGuestLogin = () => {
+    // Arahkan ke halaman user dashboard atau halaman tamu
+    localStorage.setItem("accessToken", "guest_token");
+    localStorage.setItem("user", JSON.stringify({ role: "guest" }));
+    router.push("Dashboard/guest"); // Halaman tamu
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
       <img src="logo.jpg" className="h-40 mb-[-20px]" alt="Rentronix" />
@@ -108,6 +115,8 @@ const LoginPage = () => {
         >
           {loginMutation.isPending ? "Memproses..." : "Lanjutkan"}
         </button>
+
+       
 
         <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
           <div className="flex justify-between">
