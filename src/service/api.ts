@@ -131,24 +131,3 @@ export const fetchUserById = async (pelanggan_id: number): Promise<User> => {
   return res.json();
 };
 
-export const fetchAlat = async (): Promise<User> => {
-  const token = getToken();
-  if (!token) {
-    throw new Error("Unauthorized: No authentication token found");
-  }
-
-  const res = await fetch(`${API_URL}/`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!res.ok) {
-    const errorResponse = await res.json();
-    throw new Error(errorResponse.message || "Failed to fetch user");
-  }
-
-  return res.json();
-};

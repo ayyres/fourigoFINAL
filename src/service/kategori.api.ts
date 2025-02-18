@@ -7,28 +7,6 @@ const getToken = (): string | null => {
   return localStorage.getItem("accessToken");
 };
 
-export const fetchKategori = async (): Promise<Kategori[]> => {
-  const token = getToken();
-  //   if (!token) {
-  //     throw new Error("Unauthorized: No authentication token found");
-  //   }
-
-  const res = await fetch(API_URL, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  //   if (!res.ok) {
-  //     const errorResponse = await res.json();
-  //     // throw new Error(errorResponse.message || "Failed to fetch users");
-  //   }
-
-  return res.json();
-};
-
 // Create a new user (hanya jika ada token)
 export const createKategori = async (
   kategori: Omit<Kategori, "kategori_id">
