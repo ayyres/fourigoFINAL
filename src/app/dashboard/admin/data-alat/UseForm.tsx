@@ -26,9 +26,7 @@ const AlatForm: React.FC<AlatFormProps> = ({
     kategori_id: initialData?.alat_kategori_id || "",
   });
 
-  const [categories, setCategories] = useState<{ id: number; nama: string }[]>(
-    []
-  );
+  const [categories, setCategories] = useState<{ id: number; nama: string }[]>([]);
   const [loadingCategories, setLoadingCategories] = useState<boolean>(true);
 
   const getToken = (): string | null => {
@@ -61,9 +59,7 @@ const AlatForm: React.FC<AlatFormProps> = ({
     fetchCategories();
   }, []);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -77,19 +73,19 @@ const AlatForm: React.FC<AlatFormProps> = ({
     <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-gray-800 py-10">
       <form
         onSubmit={handleSubmit}
-        className="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-2xl max-w-3xl w-full mx-4 border border-gray-200 dark:border-gray-700"
+        className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-xl max-w-xl w-full mx-4 border border-gray-200 dark:border-gray-700"
       >
-        <h2 className="text-4xl font-serif font-bold mb-6 text-gray-800 dark:text-white text-center">
+        <h2 className="text-3xl font-serif font-bold mb-6 text-gray-800 dark:text-white text-center">
           {initialData ? "Edit" : "Tambah"}{" "}
           <span className="text-blue-600 dark:text-blue-400">Alat</span>
         </h2>
-        <p className="text-base text-gray-500 dark:text-gray-400 text-center mb-8">
+        <p className="text-base text-gray-500 dark:text-gray-400 text-center mb-6">
           {initialData
             ? "Update data alat di bawah ini."
             : "Isi form berikut untuk menambah data alat baru."}
         </p>
 
-        <div className="mb-6">
+        <div className="mb-5">
           <label className="block text-lg font-medium text-gray-600 dark:text-gray-300 mb-2">
             Nama Barang:
           </label>
@@ -103,7 +99,7 @@ const AlatForm: React.FC<AlatFormProps> = ({
           />
         </div>
 
-        <div className="mb-6">
+        <div className="mb-5">
           <label className="block text-lg font-medium text-gray-600 dark:text-gray-300 mb-2">
             Deskripsi:
           </label>
@@ -117,7 +113,7 @@ const AlatForm: React.FC<AlatFormProps> = ({
           />
         </div>
 
-        <div className="mb-6">
+        <div className="mb-5">
           <label className="block text-lg font-medium text-gray-600 dark:text-gray-300 mb-2">
             Harga Per-Hari:
           </label>
@@ -131,7 +127,7 @@ const AlatForm: React.FC<AlatFormProps> = ({
           />
         </div>
 
-        <div className="mb-6">
+        <div className="mb-5">
           <label className="block text-lg font-medium text-gray-600 dark:text-gray-300 mb-2">
             Stok:
           </label>
@@ -145,7 +141,7 @@ const AlatForm: React.FC<AlatFormProps> = ({
           />
         </div>
 
-        <div className="mb-6">
+        <div className="mb-5">
           <label className="block text-lg font-medium text-gray-600 dark:text-gray-300 mb-2">
             Kategori:
           </label>
@@ -161,8 +157,8 @@ const AlatForm: React.FC<AlatFormProps> = ({
             >
               <option value="">Pilih Kategori</option>
               {categories?.map((category) => (
-                <option key={category.kategori_id} value={category.kategori_id}>
-                  {category.kategori_nama}
+                <option key={category.id} value={category.id}>
+                  {category.nama}
                 </option>
               ))}
             </select>
