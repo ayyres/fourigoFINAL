@@ -1,22 +1,27 @@
 "use client";
 import React, { useState } from "react";
-import { fetchUsers, createUser, updateUser, deleteUser } from "@/service/api";
+import {
+  fetchAlats,
+  createAlat,
+  updateAlat,
+  deleteAlat,
+} from "@/service/alat.api";
 import DataTable from "./DataTable";
-import { User } from "@/types/types";
+import { Alat } from "@/types/alat.type";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [alats, setAlats] = useState<Alat[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedAlat, setSelectedAlat] = useState<Alat | null>(null);
 
   // Fetch users on component mount
   React.useEffect(() => {
-    const loadUsers = async () => {
-      const data = await fetchUsers();
-      setUsers(data);
+    const loadAlats = async () => {
+      const data = await fetchAlats();
+      setAlats(data);
     };
-    loadUsers();
+    loadAlats();
   }, []);
 
   const router = useRouter();
@@ -26,36 +31,36 @@ const Page = () => {
   };
 
   // Handle create or update user
-  const handleSubmit = async (user: Omit<User, "id"> | User) => {
-    if ("id" in user) {
+  const handleSubmit = async (alat: Omit<Alat, "id"> | Alat) => {
+    if ("id" in alat) {
       // Update existing user
-      const updatedUser = await updateUser(user);
-      setUsers((prev) =>
-        prev.map((u) => (u.id === updatedUser.id ? updatedUser : u))
+      const updatedAlat = await updateAlat(alat);
+      setAlats((prev) =>
+        prev.map((u) => (u.alat_id === updatedAlat.alat_id ? updatedAlat : u))
       );
     } else {
       // Create new user
-      const newUser = await createUser(user);
-      setUsers((prev) => [...prev, newUser]);
+      const newAlat = await createAlat(alat);
+      setAlats((prev) => [...prev, newAlat]);
     }
     setShowForm(false);
-    setSelectedUser(null);
+    setSelectedAlat(null);
   };
 
   // Handle delete user
   const handleDelete = async (id: number) => {
-    await deleteUser(id);
-    setUsers((prev) => prev.filter((user) => user.id !== id));
+    await deleteAlat(id);
+    setAlats((prev) => prev.filter((alat) => alat.alat_id !== id));
   };
 
   return (
     <div>
-      <h1>User Data</h1>
-      <button onClick={handleAddUserClick}>Add User</button>
+      <h1>Alat Data</h1>
+      <button onClick={handleAddUserClick}>Add Alat</button>
       <DataTable
-        data={users}
-        onEdit={(user) => {
-          setSelectedUser(user);
+        data={alats}
+        onEdit={(alat) => {
+          setSelectedAlat(alat);
           setShowForm(true);
         }}
         onDelete={handleDelete}

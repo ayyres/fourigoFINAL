@@ -2,55 +2,77 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { fetchUserById, updateUser } from "@/service/api";
-import { User } from "@/types/types";
 import UserForm from "../../UseForm";
+import { fetchAlatById, updateAlat } from "@/service/alat.api";
+import { Alat } from "@/types/alat.type";
 
-const EditUserPage = () => {
+const EditAlatPage = () => {
   const router = useRouter();
-  const params = useParams(); // Ambil parameter dari URL
-  const userId = params.id as string; // Ambil ID dari URL
+  const params = useParams();
+  const alatId = params?.id as string;
+  const [alat, setAlat] = useState<Alat | null>(null);
+  const [loading, setLoading] = useState(true);
+  console.log(alat);
 
-  const [user, setUser] = useState<User | null>(null);
-
-  // Fetch user data based on ID
   useEffect(() => {
-    const loadUser = async () => {
+    if (!alatId) {
+      console.error("Alat ID is undefined. Cannot fetch data.");
+      return;
+    }
+
+    const loadAlat = async () => {
       try {
-        const data = await fetchUserById(Number(userId));
-        setUser(data);
+        console.log("Fetching alat with ID:", alatId);
+        const data = await fetchAlatById(Number(alatId));
+        console.log("Fetched alat data:", data);
+
+        if (!data.data.alat_id) {
+          console.error("Fetched data does not contain alat_id!");
+        }
+
+        setAlat(data);
       } catch (error) {
-        console.error("Failed to fetch user:", error);
-        router.push("/dashboard/admin/data-pelanggan"); // Redirect jika gagal
+        console.error("Failed to fetch alat:", error);
+        router.push("/dashboard/admin/data-alat");
+      } finally {
+        setLoading(false);
       }
     };
-    loadUser();
-  }, [userId, router]);
 
-  // Handle form submission
-  const handleSubmit = async (updatedUser: User) => {
+    loadAlat();
+  }, [alatId, router]);
+
+  const handleSubmit = async (updatedAlat: Alat) => {
     try {
-      await updateUser(updatedUser);
-      router.push("/dashboard/admin/data-pelanggan"); // Kembali ke halaman utama setelah update
+      // if (!updatedUser.pelanggan_id) {
+      //   throw new Error("User ID is undefined. Cannot update.");
+      // }
+
+      console.log("Submitting updated user data:", updatedAlat);
+      await updateAlat(updatedAlat);
+      router.push("/dashboard/admin/data-alat");
     } catch (error) {
-      console.error("Failed to update user:", error);
+      console.error("Failed to update alat:", error);
     }
   };
 
-  if (!user) {
-    return <div>Loading...</div>; // Tampilkan loading jika data belum diambil
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!alat) {
+    return <div>Error: User data not found.</div>;
   }
 
   return (
     <div>
-      <h1>Edit User</h1>
       <UserForm
-        initialData={user}
+        initialData={alat}
         onSubmit={handleSubmit}
-        onCancel={() => router.push("/dashboard/admin/data-pelanggan")}
+        onCancel={() => router.push("/dashboard/admin/data-alat")}
       />
     </div>
   );
 };
 
-export default EditUserPage;
+export default EditAlatPage;
