@@ -18,24 +18,25 @@ const Navbar = () => {
 
           {/* Menu di Tengah */}
           <div
-            className="hidden md:flex justify-start w-full ml-8"
+            className="hidden md:flex justify-center w-full ml-8"
             id="navbar-default"
           >
             <ul className="font-normal flex flex-row space-x-8">
-              <li>
-                <Link href="/dashboard/admin/data-pelanggan">
-                  <span className="block py-1 px-3 text-lg text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500">
-                    Data Pelanggan
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/dashboard/admin/data-alat">
-                  <span className="block py-1 px-3 text-lg text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                    Data Alat
-                  </span>
-                </Link>
-              </li>
+            <li>
+  <Link href="/dashboard/admin/data-pelanggan">
+    <span className="block py-2 px-4 text-lg font-semibold text-whiterounded-sm md:bg-transparent md:text-gray-900 md:p-0 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-800 md:hover:bg-transparent md:hover:text-blue-800 dark:md:hover:bg-transparent dark:md:hover:text-blue-500">
+      Data Pelanggan
+    </span>
+  </Link>
+</li>
+<li>
+  <Link href="/dashboard/admin/data-alat">
+    <span className="block py-2 px-4 text-lg font-semibold text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent transition duration-300 ease-in-out transform hover:scale-105 md:hover:text-blue-800 dark:md:hover:text-blue-500">
+      Data Alat
+    </span>
+  </Link>
+</li>
+
             </ul>
           </div>
 

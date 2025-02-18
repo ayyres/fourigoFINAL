@@ -30,7 +30,6 @@ const AddUserPage = () => {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold mb-4">Tambah Pengguna</h2>
       {error && <p className="text-red-500">{error}</p>}{" "}
       <UserForm
         onSubmit={handleSubmit}
