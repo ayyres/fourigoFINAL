@@ -2,18 +2,17 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import UserForm from "../UseForm";
-import { createKategori } from "@/service/kategori.api";
+import UseForm from "./UseForm";
+import { createKategori } from "@/service/api";
 import { Kategori } from "@/types/kategori.type";
 
 const AddKategoriPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  console.log("Token:", localStorage.getItem("accessToken"));
 
   // Handle form submission
-  const handleSubmit = async (kategori: Omit<Kategori, "id">) => {
+  const handleSubmit = async (kategori: Omit<Kategori, "kategori_id">) => {
     try {
       setLoading(true);
       setError(null);
@@ -30,14 +29,14 @@ const AddKategoriPage = () => {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold mb-4">Tambah Pengguna</h2>
-      {error && <p className="text-red-500">{error}</p>}{" "}
-      <UserForm
+      <h2 className="text-lg font-semibold mb-4">Tambah Kategori</h2>
+      {error && <p className="text-red-500">{error}</p>}
+      <UseForm
         onSubmit={handleSubmit}
         onCancel={() => router.push("/dashboard/admin/kategori")}
         disabled={loading}
       />
-      {loading && <p className="text-blue-500 mt-2">Loading...</p>}{" "}
+      {loading && <p className="text-blue-500 mt-2">Loading...</p>}
     </div>
   );
 };
