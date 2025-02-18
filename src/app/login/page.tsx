@@ -43,9 +43,9 @@ const LoginPage = () => {
 
       // Redirect berdasarkan peran
       if (data.user.role === "admin") {
-        router.push("Dashboard/admin");
+        router.push("dashboard/admin");
       } else {
-        router.push("Dashboard/user"); // Ganti ke dashboard pengguna
+        router.push("dashboard/admin"); // Ganti ke dashboard pengguna
       }
     },
     onError: (error: any) => {
@@ -68,7 +68,7 @@ const LoginPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
-      <img src="logo.jpg" className="h-40 mb-[-20px]" alt="Rentronix" />
+      <img src="logo.jpg" className="h-24" alt="Rentronix" />
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-md p-8 pt-14 border border-gray-300 rounded-lg shadow-md bg-white dark:bg-gray-700 dark:border-gray-600"
