@@ -75,6 +75,28 @@ export const deleteKategori = async (kategori_id: number): Promise<void> => {
     throw new Error(errorResponse.message || "Failed to delete category");
   }
 };
+// Fetch category by ID (hanya jika ada token)
+export const fetchKategori = async (): Promise<Kategori> => {
+  const token = getToken();
+  if (!token) {
+    throw new Error("Unauthorized: No authentication token found");
+  }
+
+  const res = await fetch(`${API_URL}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const errorResponse = await res.json();
+    throw new Error(errorResponse.message || "Failed to fetch category");
+  }
+
+  return res.json();
+};
 
 // Fetch category by ID (hanya jika ada token)
 export const fetchKategoriById = async (

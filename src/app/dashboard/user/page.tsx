@@ -1,9 +1,59 @@
 "use client";
+import React, { useEffect, useState } from "react";
+import { Spinner } from "flowbite-react";
+import { fetchAlat, fetchAlatById } from "@/service/alat.api";
+import { fetchKategori } from "@/service/kategori.api";
 
-import { M_PLUS_1 } from "next/font/google";
-import React from "react";
+export default function AlatList() {
+  const [alat, setAlat] = useState([]);
+  const [kategori, setKategori] = useState([]);
+  const [createKategori, setCreateKategori] = useState<number>();
+  const [loading, setLoading] = useState(true);
 
-const page = () => {
+  useEffect(() => {
+    fetchData();
+    fetchKategoriData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const data = await fetchAlat();
+      setAlat(data.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Gagal mengambil data:", error);
+    }
+  };
+
+  const fetchKategoriData = async () => {
+    try {
+      const data = await fetchKategori();
+      setKategori(data.data);
+    } catch (error) {
+      console.error("Gagal mengambil kategori:", error);
+    }
+  };
+
+  const handleKategoriChange = (event) => {
+    setCreateKategori(event.target.value);
+  };
+
+  const filteredAlat = createKategori
+    ? alat.filter((item) => item.alat_kategori_id == createKategori)
+    : alat;
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Spinner aria-label="Loading..." size="xl" />
+      </div>
+    );
+  }
+
+  console.log(filteredAlat);
+  console.log(createKategori);
+
   return (
     <>
       <div className="bg-gray-100">
@@ -15,117 +65,55 @@ const page = () => {
             </span>
           </h1>
           <p className="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
-            Anda dapat melakukan peminjaman dengan mudah
+            Anda dapat melakukan penyewaan dengan mudah
           </p>
         </div>
 
-        {/* Container Card */}
-        <h2 className="p-20 text-5xl font-serif font-bold text-gray-900 shadow-md hover:shadow-lg transition-shadow duration-300">
-          Handphone
-        </h2>
-        <div className="flex bg-gray-100 overflow-x-auto space-x-4 p-4">
-          {Array.from({ length: 10 }).map((_, index) => (
-            <a
-              key={index}
-              href="#"
-              className="block p-6 w-96 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-slate-300 flex-shrink-0"
-            >
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Noteworthy technology acquisitions 2021
-              </h5>
-              <p className="font-normal text-gray-700 dark:text-gray-400">
-                Here are the biggest enterprise technology acquisitions of 2021
-                so far, in reverse chronological order.
-              </p>
-
-              {/* Tambahkan elemen harga dan tombol "Pinjam" di sini */}
-              <div className="flex items-center justify-between mt-4">
-                <span className="text-3xl font-bold text-gray-900 dark:text-white">
-                  $599
-                </span>
-                <a
-                  href="#"
-                  className="text-white bg-blue-700 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                >
-                  Pinjam
-                </a>
-              </div>
-            </a>
-          ))}
+        <div className="max-w-4xl mx-auto px-4 py-10">
+          <label className="block mb-4 text-lg font-medium text-gray-700 dark:text-gray-300">
+            Pilih Kategori
+          </label>
+          <select
+            value={createKategori}
+            onChange={handleKategoriChange}
+            className="block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+          >
+            <option value="">Semua Kategori</option>
+            {kategori.map((kategori) => (
+              <option key={kategori.kategori_id} value={kategori.kategori_id}>
+                {kategori.kategori_nama}
+              </option>
+            ))}
+          </select>
         </div>
 
-        {/* Container Card */}
-        <h2 className="p-20 text-5xl font-serif text-start font-bold text-gray-900 shadow-md hover:bg-slate-300 transition-shadow duration-300">
-          Camera
-        </h2>
-        <div className="flex bg-gray-100 overflow-x-auto space-x-4 p-4">
-          {Array.from({ length: 10 }).map((_, index) => (
-            <a
-              key={index}
-              href="#"
-              className="block p-6 w-96 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-transparent flex-shrink-0"
-            >
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Noteworthy technology acquisitions 2021
-              </h5>
-              <p className="font-normal text-gray-700 dark:text-gray-400">
-                Here are the biggest enterprise technology acquisitions of 2021
-                so far, in reverse chronological order.
-              </p>
-
-              {/* Tambahkan elemen harga dan tombol "Pinjam" di sini */}
-              <div className="flex items-center justify-between mt-4">
-                <span className="text-3xl font-bold text-gray-900 dark:text-white">
-                  $599
-                </span>
-                <a
-                  href="#"
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  Pinjam
-                </a>
-              </div>
-            </a>
-          ))}
-        </div>
-
-        {/* Container Card */}
-        <h2 className="p-20 text-5xl font-serif font-bold text-gray-900 shadow-md hover:shadow-lg transition-shadow duration-300">
-          Laptop
-        </h2>
-        <div className="flex bg-gray-100 overflow-x-auto space-x-4 p-4">
-          {Array.from({ length: 10 }).map((_, index) => (
-            <a
-              key={index}
-              href="#"
-              className="block p-6 w-96 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-slate-300 flex-shrink-0"
-            >
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Noteworthy technology acquisitions 2021
-              </h5>
-              <p className="font-normal text-gray-700 dark:text-gray-400">
-                Here are the biggest enterprise technology acquisitions of 2021
-                so far, in reverse chronological order.
-              </p>
-
-              {/* Tambahkan elemen harga dan tombol "Pinjam" di sini */}
-              <div className="flex items-center justify-between mt-4">
-                <span className="text-3xl font-bold text-gray-900 dark:text-white">
-                  $599
-                </span>
-                <a
-                  href="#"
-                  className="text-white bg-blue-700 hover:bg-slate-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                >
-                  Pinjam
-                </a>
-              </div>
-            </a>
-          ))}
+        <div className="flex flex-col space-y-12">
+          <h2 className="text-5xl font-serif font-bold text-gray-900 shadow-md hover:shadow-lg transition-shadow duration-300 p-8">
+            Alat
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-8 bg-gray-100 rounded-lg">
+            {filteredAlat?.map((item, index) => (
+              <a
+                key={index}
+                href="#"
+                className="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+              >
+                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  {item.alat_nama}
+                </h5>
+                <p className="font-normal text-gray-700 dark:text-gray-400">
+                  {item.alat_deskripsi}
+                </p>
+                <div className="flex items-center justify-between mt-4">
+                  <span className="text-3xl font-bold text-gray-900 dark:text-white">
+                    ${item.alat_hargaperhari}
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </>
   );
-};
-
-export default page;
+}
