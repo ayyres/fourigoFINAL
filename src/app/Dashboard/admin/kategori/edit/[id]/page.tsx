@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import UseForm from "../../UseForm";
-import { fetchKategoriById, updateKategori } from "@/service/api";
+import { fetchKategoriById, updateKategori } from "@/service/kategori.api";
 import { Kategori } from "@/types/kategori.type";
 
 const EditKategoriPage = () => {

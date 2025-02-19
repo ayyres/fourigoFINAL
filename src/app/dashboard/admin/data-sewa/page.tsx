@@ -1,51 +1,56 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { fetchUsers, createUser, updateUser, deleteUser } from "@/service/api";
+import {
+  fetchSewas,
+  createSewa,
+  updateSewa,
+  deleteSewa,
+} from "@/service/sewa.api";
 import DataTable from "./DataTable";
-import { User } from "@/types/types";
+import { Sewa } from "@/types/sewa.type";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [sewas, setSewas] = useState<Sewa[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedSewa, setSelectedSewa] = useState<Sewa | null>(null);
 
   // Fetch users on component mount
   useEffect(() => {
-    const loadUsers = async () => {
-      const data = await fetchUsers();
-      setUsers(data);
+    const loadSewas = async () => {
+      const data = await fetchSewas();
+      setSewas(data);
     };
-    loadUsers();
+    loadSewas();
   }, []);
 
   const router = useRouter();
 
-  const handleAddUserClick = () => {
-    router.push("/dashboard/admin/data-pelanggan/add");
+  const handleAddSewaClick = () => {
+    router.push("/dashboard/admin/data-sewa/add");
   };
 
   // Handle create or update user
-  const handleSubmit = async (user: Omit<User, "id"> | User) => {
-    if ("id" in user) {
+  const handleSubmit = async (sewa: Omit<Sewa, "id"> | Sewa) => {
+    if ("id" in sewa) {
       // Update existing user
-      const updatedUser = await updateUser(user);
-      setUsers((prev) =>
-        prev.map((u) => (u.id === updatedUser.id ? updatedUser : u))
+      const updatedSewa = await updateSewa(sewa);
+      setSewas((prev) =>
+        prev.map((u) => (u.id === updatedSewa.id ? updatedSewa : u))
       );
     } else {
       // Create new user
-      const newUser = await createUser(user);
-      setUsers((prev) => [...prev, newUser]);
+      const newSewa = await createSewa(sewa);
+      setSewas((prev) => [...prev, newSewa]);
     }
     setShowForm(false);
-    setSelectedUser(null);
+    setSelectedSewa(null);
   };
 
   // Handle delete user
   const handleDelete = async (id: number) => {
-    await deleteUser(id);
-    setUsers((prev) => prev.filter((user) => user.id !== id));
+    await deleteSewa(id);
+    setSewas((prev) => prev.filter((sewa) => sewa.id !== id));
   };
 
   return (
@@ -53,22 +58,22 @@ const Page = () => {
       {/* <div className="bg-white shadow-md rounded-lg p-6"> */}
 
       <h3 className="mb-4 text-2xl font-extrabold text-center leading-none tracking-tight text-gray-900 md:text-2xl lg:text-5xl dark:text-white">
-        User{" "}
+        Sewa{" "}
         <span className="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600">
           Data
         </span>
       </h3>
 
       <button
-        onClick={handleAddUserClick}
+        onClick={handleAddSewaClick}
         className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition duration-200 mb-4"
       >
-        Add User
+        Add Sewa
       </button>
       <DataTable
-        data={users}
-        onEdit={(user) => {
-          setSelectedUser(user);
+        data={sewas}
+        onEdit={(sewa) => {
+          setSelectedSewa(sewa);
           setShowForm(true);
         }}
         onDelete={handleDelete}

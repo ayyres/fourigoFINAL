@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@/types/types";
+import { Sewa } from "@/types/sewa.type";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 
 const DataTable: React.FC = () => {
   const router = useRouter();
-  const [data, setData] = useState<User[]>([]);
+  const [data, setData] = useState<Sewa[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,7 +19,7 @@ const DataTable: React.FC = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://final-project-app.aran8276.site/api/v1/pelanggan"
+        "https://final-project-app.aran8276.site/api/v1/penyewaan"
       );
       const result = await response.json();
 
@@ -38,7 +38,7 @@ const DataTable: React.FC = () => {
     }
   };
 
-  const handleDelete = async (pelanggan_id: number) => {
+  const handleDelete = async (penyewaan_id: number) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this user?"
     );
@@ -46,7 +46,7 @@ const DataTable: React.FC = () => {
 
     try {
       const response = await fetch(
-        `https://final-project-app.aran8276.site/api/v1/pelanggan/${pelanggan_id}`,
+        `https://final-project-app.aran8276.site/api/v1/penyewaan/${penyewaan_id}`,
         {
           method: "DELETE",
         }
@@ -57,9 +57,9 @@ const DataTable: React.FC = () => {
       }
 
       setData((prevData) =>
-        prevData.filter((user) => user.pelanggan_id !== pelanggan_id)
+        prevData.filter((sewa) => sewa.penyewaan_id !== penyewaan_id)
       );
-      console.log(`User with ID ${pelanggan_id} deleted successfully`);
+      console.log(`User with ID ${penyewaan_id} deleted successfully`);
     } catch (error) {
       console.error("Error deleting user:", error);
       alert("Failed to delete user");
@@ -77,35 +77,36 @@ const DataTable: React.FC = () => {
         <thead className="text-xl font-semibold uppercase bg-blue-100 dark:bg-gray-800 dark:text-gray-300">
           <tr>
             <th className="px-6 py-4">ID</th>
-            <th className="px-6 py-4">Name</th>
-            <th className="px-6 py-4">Email</th>
-            <th className="px-6 py-4">Phone</th>
-            <th className="px-6 py-4">Address</th>
+            <th className="px-6 py-4">Tanggal Sewa</th>
+            <th className="px-6 py-4">Tanggal Kembali</th>
+            <th className="px-6 py-4">Status Pembayaran</th>
+            <th className="px-6 py-4">Status Kembali</th>
+            <th className="px-6 py-4">Total Harga</th>
             <th className="px-6 py-4">Action</th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-300 dark:bg-gray-900 dark:divide-gray-700">
-          {data.map((user, index) => (
+          {data.map((sewa, index) => (
             <tr
-              key={user.pelanggan_id || index}
+              key={sewa.penyewaan_id || index}
               className="hover:bg-blue-50 dark:hover:bg-gray-800 transition duration-300"
             >
               <td className="px-6 py-4 font-bold text-gray-900 dark:text-white">
-                {user.pelanggan_id}
+                {sewa.penyewaan_id}
               </td>
-              <td className="px-6 py-4">{user.pelanggan_nama}</td>
-              <td className="px-6 py-4">{user.pelanggan_email}</td>
-              <td className="px-6 py-4">{user.pelanggan_notelp}</td>
-              <td className="px-6 py-4">{user.pelanggan_alamat}</td>
+              <td className="px-6 py-4">{sewa.penyewaan_tglsewa}</td>
+              <td className="px-6 py-4">{sewa.penyewaan_tglkembali}</td>
+              <td className="px-6 py-4">{sewa.penyewaan_sttspembayaran}</td>
+              <td className="px-6 py-4">{sewa.penyewaan_sttskembali}</td>
               <td className="px-6 py-4 flex justify-center space-x-3">
                 <Link
                   href={
-                    user.pelanggan_id
-                      ? `/dashboard/admin/data-pelanggan/edit/${user.pelanggan_id}`
+                    sewa.penyewaan_id
+                      ? `/dashboard/admin/data-sewa/edit/${sewa.penyewaan_id}`
                       : "#"
                   }
                   onClick={(e) => {
-                    if (!user.pelanggan_id) {
+                    if (!sewa.penyewaan_id) {
                       e.preventDefault();
                       console.error("Error: User ID is missing");
                     }
@@ -122,7 +123,7 @@ const DataTable: React.FC = () => {
                   <span>Edit</span>
                 </Link>
                 <button
-                  onClick={() => handleDelete(user.pelanggan_id)}
+                  onClick={() => handleDelete(sewa.penyewaan_id)}
                   className="flex items-center space-x-2 px-4 py-2 text-lg font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-300"
                 >
                   <Image

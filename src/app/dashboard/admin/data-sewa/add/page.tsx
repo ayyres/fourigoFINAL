@@ -3,24 +3,24 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import UserForm from "../UseForm";
-import { createUser } from "@/service/api";
-import { User } from "@/types/types";
+import { createSewa } from "@/service/sewa.api";
+import { Sewa } from "@/types/sewa.type";
 
-const AddUserPage = () => {
+const AddSewaPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   console.log("Token:", localStorage.getItem("accessToken"));
 
   // Handle form submission
-  const handleSubmit = async (user: Omit<User, "id">) => {
+  const handleSubmit = async (sewa: Omit<Sewa, "id">) => {
     try {
       setLoading(true);
       setError(null);
 
-      await createUser(user);
+      await createSewa(sewa);
 
-      router.push("/dashboard/admin/data-pelanggan");
+      router.push("/dashboard/admin/data-sewa");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -30,10 +30,10 @@ const AddUserPage = () => {
 
   return (
     <div>
-      {error && <p className="text-red-500">{error}</p>}{" "}
+      {error && <p className="text-red-500">{error}</p>}
       <UserForm
         onSubmit={handleSubmit}
-        onCancel={() => router.push("/dashboard/admin/data-pelanggan")}
+        onCancel={() => router.push("/dashboard/admin/data-sewa")}
         disabled={loading}
       />
       {loading && <p className="text-blue-500 mt-2">Loading...</p>}{" "}
@@ -41,4 +41,4 @@ const AddUserPage = () => {
   );
 };
 
-export default AddUserPage;
+export default AddSewaPage;

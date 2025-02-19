@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import UseForm from "./UseForm";
-import { createKategori } from "@/service/api";
+import UserForm from "../UseForm";
+import { createKategori } from "@/service/kategori.api";
 import { Kategori } from "@/types/kategori.type";
 
 const AddKategoriPage = () => {
@@ -31,7 +31,7 @@ const AddKategoriPage = () => {
     <div>
       <h2 className="text-lg font-semibold mb-4">Tambah Kategori</h2>
       {error && <p className="text-red-500">{error}</p>}
-      <UseForm
+      <UserForm
         onSubmit={handleSubmit}
         onCancel={() => router.push("/dashboard/admin/kategori")}
         disabled={loading}
