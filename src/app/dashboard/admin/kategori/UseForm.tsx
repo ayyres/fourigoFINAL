@@ -1,7 +1,7 @@
 "use client";
 
 import { Kategori } from "@/types/kategori.type";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
 interface KategoriFormProps {
@@ -29,16 +29,18 @@ const UserForm: React.FC<KategoriFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting form data:", formData.kategori_id);
-
-    if (!("kategori_id" in formData)) {
-      console.error("Error: kategori_id is missing!");
-      return;
-    }
-
     onSubmit(formData);
   };
 
+  useEffect(() => {
+    if (initialData) {
+      setFormData((prev) => ({
+        ...prev,
+        kategori_id: initialData.data.kategori_id,
+        kategori_nama: initialData.data.kategori_nama || "",
+      }));
+    }
+  }, [initialData]);
   return (
     <div className="flex justify-center items-center min-h-screen">
       <form
@@ -46,7 +48,7 @@ const UserForm: React.FC<KategoriFormProps> = ({
         className="bg-white p-8 rounded-lg shadow-md max-w-2xl w-full mx-4 mt-10 border border-gray-200"
       >
         <h2 className="text-5xl font-extrabold mb-6 text-gray-800 dark:text-white">
-          {initialData ? "Update" : "Create"}
+          {initialData ? "Edit" : "Tambah"}{" "}
           <small className="ms-2 font-semibold text-gray-500 dark:text-gray-400">
             Kategori
           </small>

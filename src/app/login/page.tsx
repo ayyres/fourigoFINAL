@@ -41,12 +41,7 @@ const LoginPage = () => {
       document.cookie = `accessToken=${data.access_token}; path=/;`;
       document.cookie = `user=${JSON.stringify(data.user)}; path=/;`;
 
-      // Redirect berdasarkan peran
-      if (data.user.role === "admin") {
-        router.push("dashboard/admin");
-      } else {
-        router.push("dashboard/guest"); // Ganti ke dashboard pengguna
-      }
+      router.push("/dashboard/admin");
     },
     onError: (error: any) => {
       setErrorMessage(error.message);
@@ -129,23 +124,20 @@ const LoginPage = () => {
         </button>
 
         <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-          <a
-            href="/forgot-password"
-            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-          >
-            Lupa password?
-          </a>
-        </p>
-
-        {/* Link login sebagai tamu */}
-        <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-          >
-            Login sebagai Tamu
-          </button>
+          <div className="flex justify-between">
+            <a
+              href="/forgot-password"
+              className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+            >
+              Lupa password?
+            </a>
+            <a
+              href="/dashboard/user"
+              className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+            >
+              Login as Guess
+            </a>
+          </div>
         </p>
 
         <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">

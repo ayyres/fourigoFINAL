@@ -38,7 +38,6 @@ const UserForm: React.FC<UserFormProps> = ({
     }
   }, [initialData]);
 
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -46,13 +45,6 @@ const UserForm: React.FC<UserFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting form data:", formData);
-
-    if (!("pelanggan_id" in formData)) {
-      console.error("Error: pelanggan_id is missing!");
-      return;
-    }
-
     onSubmit(formData);
   };
 

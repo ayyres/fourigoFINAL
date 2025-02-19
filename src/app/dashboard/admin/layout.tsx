@@ -27,15 +27,13 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <body className={`${inter.variable} ${robotoMono.variable} antialiased`}>
-        <Navbar />
-        <AuthProvider>
-          <QueryProvider>
-            <div className="mt-24">{children}</div>
-          </QueryProvider>
-        </AuthProvider>
-        <Footer />
-      </body>
+      <Navbar />
+      <AuthProvider>
+        <QueryProvider>
+          <div className="mt-24">{children}</div>
+        </QueryProvider>
+      </AuthProvider>
+      <Footer />
     </>
   );
 }
