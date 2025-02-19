@@ -1,6 +1,6 @@
 "use client";
 
-import { Sewa } from "@/types/sewa.type";
+import { Sewa, sewaDetail } from "@/types/sewa.type";
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 
@@ -31,10 +31,22 @@ const UserForm: React.FC<SewaFormProps> = ({
     penyewaan_pelanggan_id: initialData?.penyewaan_pelanggan_id || "",
   });
 
+  const [formDataDetail, setFormDataDetail] = useState<sewaDetail>({
+    penyewaan_detail_id: initialData?.penyewaan_detail_id || 0,
+    penyewaan_detail_penyewaan_id:
+      initialData?.penyewaan_detail_penyewaan_id || "",
+    penyewaan_detail_alat_id: initialData?.penyewaan_detail_alat_id,
+    penyewaan_detail_jumlah: initialData?.penyewaan_detail_jumlah || "",
+    penyewaan_detail_subharga: initialData?.penyewaan_detail_subharga || "",
+  });
+
   const [pelanggan, setPelanggan] = useState<{ id: number; nama: string }[]>(
     []
   );
   const [loadingPelanggan, setLoadingPelanggan] = useState<boolean>(true);
+
+  const [alat, setAlat] = useState<{ id: number; nama: string }[]>([]);
+  const [loadingAlat, setLoadingAlat] = useState<boolean>(true);
 
   useEffect(() => {
     if (initialData) {
@@ -76,6 +88,32 @@ const UserForm: React.FC<SewaFormProps> = ({
     };
 
     fetchPelanggan();
+  }, []);
+
+  useEffect(() => {
+    const fetchAlat = async () => {
+      const token = getToken();
+      try {
+        const response = await fetch(
+          "https://final-project-app.aran8276.site/api/v1/alat",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setAlat(data.data);
+      } catch (error) {
+        console.error("Gagal mengambil data kategori:", error);
+      } finally {
+        setLoadingPelanggan(false);
+      }
+    };
+
+    fetchAlat();
   }, []);
 
   const handleChange = (
@@ -129,16 +167,28 @@ const UserForm: React.FC<SewaFormProps> = ({
 
         <div className="mb-6">
           <label className="block text-lg font-medium text-gray-600 dark:text-gray-300 mb-2">
-            Tanggal Pinjam
+            Alat
           </label>
-          <input
-            type="date"
-            name="penyewaan_tglsewa"
-            value={formData.penyewaan_tglsewa}
+          <select
+            name="penyewaan__detail_alat_id"
+            value={formData.penyewaan__detail_alat_id}
             onChange={handleChange}
             required
             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg shadow-inner focus:outline-none focus:border-blue-500 dark:bg-gray-800 dark:text-white"
-          />
+          >
+            <option value="">Pilih Pelanggan</option>
+            {alat.map((p) => (
+              <option
+                key={p.alat_id}
+                value={p.alat_id}
+                defaultValue={
+                  formData.penyewaan_detail_alat_id === pelanggan.alat_id
+                }
+              >
+                {p.alat_nama}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="mb-6">

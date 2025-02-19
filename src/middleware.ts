@@ -11,7 +11,6 @@ export function middleware(request) {
 
   if (isProtected) {
     console.log("dfkgjklsdjgjkdsfg");
-    // Cek apakah ada token akses di localStorage
     const accessToken = request.cookies.get("accessToken");
     console.log("access toke: ", accessToken);
     if (!accessToken) {
