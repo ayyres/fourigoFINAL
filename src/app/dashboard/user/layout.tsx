@@ -4,6 +4,7 @@ import QueryProvider from "@/providers/QueryProvider";
 import { AuthProvider } from "@/context/AuthContext";
 import Sidebar from "../../../components/Sidebar";
 import Footer from "../../../components/Footer";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <>
       <Sidebar />
+      <Toaster/>
       <div className="mt-24">{children}</div>
     </>
   );
