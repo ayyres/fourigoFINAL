@@ -38,8 +38,8 @@ const LoginPage = () => {
       }
 
       // Simpan token dan data user ke localStorage
-      localStorage.setItem("accessToken", data.access_token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      document.cookie = `accessToken=${data.access_token}; path=/;`;
+      document.cookie = `user=${JSON.stringify(data.user)}; path=/;`;
 
       router.push("/dashboard/admin");
     },
@@ -54,11 +54,18 @@ const LoginPage = () => {
     loginMutation.mutate({ email, password });
   };
 
-  const handleGuestLogin = () => {
-    // Arahkan ke halaman user dashboard atau halaman tamu
-    localStorage.setItem("accessToken", "guest_token");
-    localStorage.setItem("user", JSON.stringify({ role: "guest" }));
-    router.push("Dashboard/guest"); // Halaman tamu
+  // const handleGuestLogin = () => {
+  //   // Arahkan ke halaman user dashboard atau halaman tamu
+  //   localStorage.setItem("accessToken", "guest_token");
+  //   localStorage.setItem("user", JSON.stringify({ role: "guest" }));
+  //   router.push("Dashboard/guest"); // Halaman tamu
+  // };
+
+  const handleLogout = () => {
+    document.cookie =
+      "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+    document.cookie = "user=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+    router.push("/login");
   };
 
   return (
@@ -115,8 +122,6 @@ const LoginPage = () => {
         >
           {loginMutation.isPending ? "Memproses..." : "Lanjutkan"}
         </button>
-
-       
 
         <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
           <div className="flex justify-between">

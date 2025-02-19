@@ -13,11 +13,11 @@ import {
 
 interface Alat {
   id: number;
-  kategori_id: number;
-  nama: string;
+  alat_kategori_id: number;
+  alat_nama: string; // Perbaiki typo "nam a"
   deskripsi: string;
-  hargaperhari: number;
-  stok: number;
+  alat_hargaperhari: number;
+  alat_stok: number;
 }
 
 interface Penyewaan {
@@ -66,42 +66,53 @@ const AdminDashboard = () => {
     revenue: 0,
   });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch alat
-        const alatRes = await fetch(`${API_URL}/v1/alat`);
-        const alatData = await alatRes.json();
-        setTools(Array.isArray(alatData) ? alatData : []);
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          // Fetch alat
+          const alatRes = await fetch(`${API_URL}/v1/alat`);
+          if (!alatRes.ok) {
+            throw new Error(`Error fetching alat: ${alatRes.status}`);
+          }
+          const alatData = await alatRes.json();
+          setTools(Array.isArray(alatData.data) ? alatData.data : []);
+    
+          // Fetch penyewaan
+          const penyewaanRes = await fetch(`${API_URL}/v1/penyewaan`);
+          if (!penyewaanRes.ok) {
+            throw new Error(`Error fetching penyewaan: ${penyewaanRes.status}`);
+          }
+          const penyewaanData = await penyewaanRes.json();
+          setRentedTools(Array.isArray(penyewaanData) ? penyewaanData : []);
+    
+          // Fetch pelanggan
+          const pelangganRes = await fetch(`${API_URL}/v1/pelanggan`);
+          if (!pelangganRes.ok) {
+            throw new Error(`Error fetching pelanggan: ${pelangganRes.status}`);
+          }
+          const pelangganData = await pelangganRes.json();
+    
+          // Perhitungan statistik
+          setStats({
+            totalTools: Array.isArray(alatData.data) ? alatData.data.length : 0,
+            rentedTools: Array.isArray(penyewaanData) ? penyewaanData.length : 0,
+            activeUsers: Array.isArray(pelangganData) ? pelangganData.length : 0,
+            revenue: Array.isArray(penyewaanData)
+              ? penyewaanData.reduce(
+                  (acc, p) => acc + (p.totalharga || 0),
+                  0
+                )
+              : 0,
+          });
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+    
+      fetchData();
+    }, []);
 
-        // Fetch penyewaan
-        const penyewaanRes = await fetch(`${API_URL}/v1/penyewaan`);
-        const penyewaanData = await penyewaanRes.json();
-        setRentedTools(Array.isArray(penyewaanData) ? penyewaanData : []);
-
-        // Fetch pelanggan
-        const pelangganRes = await fetch(`${API_URL}/v1/pelanggan`);
-        const pelangganData = await pelangganRes.json();
-
-        // Perhitungan statistik (dummy logic, sesuaikan dengan API backend)
-        setStats({
-          totalTools: Array.isArray(alatData) ? alatData.length : 0,
-          rentedTools: Array.isArray(penyewaanData) ? penyewaanData.length : 0,
-          activeUsers: Array.isArray(pelangganData) ? pelangganData.length : 0,
-          revenue: Array.isArray(penyewaanData)
-            ? penyewaanData.reduce(
-                (acc: number, p: Penyewaan) => acc + (p.totalharga || 0),
-                0
-              )
-            : 0,
-        });
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  
 
   return (
     <div className="min-h-screen p-8 bg-gray-100 dark:bg-gray-900">
@@ -199,44 +210,45 @@ const AdminDashboard = () => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y divide-gray-200 dark:divide-gray-700">
-            {Array.isArray(tools) && tools.map((tool) => (
-              <Table.Row
+            {Array.isArray(tools) &&
+              tools.map((tool) => (
+                <Table.Row
                   key={tool.id}
                   className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-transform transform hover:scale-105 duration-300"
-              >
-                <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
-                  {tool.nama}
-                </Table.Cell>
-                <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
-                  {tool.kategori_id}{" "}
-                  {/* You might need to map this ID to category name */}
-                </Table.Cell>
-                <Table.Cell className="py-4 px-6">
-                  <span
-                    className={`inline-block px-3 py-1 text-sm font-semibold ${
-                      tool.stok > 0
-                        ? "text-green-600 bg-green-100"
-                        : "text-red-600 bg-red-100"
-                    } rounded-full dark:${
-                      tool.stok > 0
-                        ? "bg-green-800 text-green-300"
-                        : "bg-red-800 text-red-300"
-                    }`}
-                  >
-                    {tool.stok > 0 ? "Tersedia" : "Habis"}
-                  </span>
-                </Table.Cell>
-                <Table.Cell className="py-4 px-6 flex space-x-3">
-                  <a
-                    href={`/admin/manage-tools/edit/${tool.id}`}
-                    className="flex items-center space-x-1 text-blue-600 hover:text-blue-800 transition duration-300"
-                  >
-                    <HiOutlinePencilAlt className="w-5 h-5" />
-                    <span>Edit</span>
-                  </a>
-                </Table.Cell>
-              </Table.Row>
-            ))}
+                >
+                  <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
+                    {tool.alat_nama}
+                  </Table.Cell>
+                  <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
+                    {tool.alat_kategori_id}{" "}
+                    {/* You might need to map this ID to category name */}
+                  </Table.Cell>
+                  <Table.Cell className="py-4 px-6">
+                    <span
+                      className={`inline-block px-3 py-1 text-sm font-semibold ${
+                        tool.alat_stok > 0
+                          ? "text-green-600 bg-green-100"
+                          : "text-red-600 bg-red-100"
+                      } rounded-full dark:${
+                        tool.alat_stok > 0
+                          ? "bg-green-800 text-green-300"
+                          : "bg-red-800 text-red-300"
+                      }`}
+                    >
+                      {tool.alat_stok > 0 ? "Tersedia" : "Habis"}
+                    </span>
+                  </Table.Cell>
+                  <Table.Cell className="py-4 px-6 flex space-x-3">
+                    <a
+                      href={`/admin/manage-tools/edit/${tool.id}`}
+                      className="flex items-center space-x-1 text-blue-600 hover:text-blue-800 transition duration-300"
+                    >
+                      <HiOutlinePencilAlt className="w-5 h-5" />
+                      <span>Edit</span>
+                    </a>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
           </Table.Body>
         </Table>
       </div>
@@ -262,39 +274,40 @@ const AdminDashboard = () => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y divide-gray-200 dark:divide-gray-700">
-            {Array.isArray(rentedTools) && rentedTools.map((rentedTool) => (
-              <Table.Row
-                key={rentedTool.id}
-                className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-transform transform hover:scale-105 duration-300"
-              >
-                <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
-                  {rentedTool.tglsewa}{" "}
-                  {/* Assuming you want to show rental date */}
-                </Table.Cell>
-                <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
-                  {rentedTool.pelanggan_id}{" "}
-                  {/* Map this ID to the actual customer */}
-                </Table.Cell>
-                <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
-                  {rentedTool.sttskembali}
-                </Table.Cell>
-                <Table.Cell className="py-4 px-6">
-                  <span
-                    className={`inline-block px-3 py-1 text-sm font-semibold ${
-                      rentedTool.sttskembali === "Belum Kembali"
-                        ? "text-red-600 bg-red-100"
-                        : "text-yellow-600 bg-yellow-100"
-                    } rounded-full dark:${
-                      rentedTool.sttskembali === "Belum Kembali"
-                        ? "bg-red-800 text-red-300"
-                        : "bg-yellow-800 text-yellow-300"
-                    }`}
-                  >
+            {Array.isArray(rentedTools) &&
+              rentedTools.map((rentedTool) => (
+                <Table.Row
+                  key={rentedTool.id}
+                  className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-transform transform hover:scale-105 duration-300"
+                >
+                  <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
+                    {rentedTool.tglsewa}{" "}
+                    {/* Assuming you want to show rental date */}
+                  </Table.Cell>
+                  <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
+                    {rentedTool.pelanggan_id}{" "}
+                    {/* Map this ID to the actual customer */}
+                  </Table.Cell>
+                  <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
                     {rentedTool.sttskembali}
-                  </span>
-                </Table.Cell>
-              </Table.Row>
-            ))}
+                  </Table.Cell>
+                  <Table.Cell className="py-4 px-6">
+                    <span
+                      className={`inline-block px-3 py-1 text-sm font-semibold ${
+                        rentedTool.sttskembali === "Belum Kembali"
+                          ? "text-red-600 bg-red-100"
+                          : "text-yellow-600 bg-yellow-100"
+                      } rounded-full dark:${
+                        rentedTool.sttskembali === "Belum Kembali"
+                          ? "bg-red-800 text-red-300"
+                          : "bg-yellow-800 text-yellow-300"
+                      }`}
+                    >
+                      {rentedTool.sttskembali}
+                    </span>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
           </Table.Body>
         </Table>
       </div>
@@ -320,37 +333,38 @@ const AdminDashboard = () => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y divide-gray-200 dark:divide-gray-700">
-            {Array.isArray(history) && history.map((rental) => (
-              <Table.Row
-                key={rental.id}
-                className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-transform transform hover:scale-105 duration-300"
-              >
-                <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
-                  {rental.tglsewa}
-                </Table.Cell>
-                <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
-                  {rental.pelanggan_id}
-                </Table.Cell>
-                <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
-                  {rental.sttskembali}
-                </Table.Cell>
-                <Table.Cell className="py-4 px-6">
-                  <span
-                    className={`inline-block px-3 py-1 text-sm font-semibold ${
-                      rental.sttskembali === "Belum Kembali"
-                        ? "text-red-600 bg-red-100"
-                        : "text-yellow-600 bg-yellow-100"
-                    } rounded-full dark:${
-                      rental.sttskembali === "Belum Kembali"
-                        ? "bg-red-800 text-red-300"
-                        : "bg-yellow-800 text-yellow-300"
-                    }`}
-                  >
+            {Array.isArray(history) &&
+              history.map((rental) => (
+                <Table.Row
+                  key={rental.id}
+                  className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-transform transform hover:scale-105 duration-300"
+                >
+                  <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
+                    {rental.tglsewa}
+                  </Table.Cell>
+                  <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
+                    {rental.pelanggan_id}
+                  </Table.Cell>
+                  <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
                     {rental.sttskembali}
-                  </span>
-                </Table.Cell>
-              </Table.Row>
-            ))}
+                  </Table.Cell>
+                  <Table.Cell className="py-4 px-6">
+                    <span
+                      className={`inline-block px-3 py-1 text-sm font-semibold ${
+                        rental.sttskembali === "Belum Kembali"
+                          ? "text-red-600 bg-red-100"
+                          : "text-yellow-600 bg-yellow-100"
+                      } rounded-full dark:${
+                        rental.sttskembali === "Belum Kembali"
+                          ? "bg-red-800 text-red-300"
+                          : "bg-yellow-800 text-yellow-300"
+                      }`}
+                    >
+                      {rental.sttskembali}
+                    </span>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
           </Table.Body>
         </Table>
       </div>
