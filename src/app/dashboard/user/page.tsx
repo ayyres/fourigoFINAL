@@ -1,8 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Card, Spinner, Table } from "flowbite-react";
+import { Spinner } from "flowbite-react";
 import { fetchKategori } from "@/service/kategori.api";
-import { fetchAlat } from "@/service/api";
 import { fetchAlats } from "@/service/alat.api";
 
 export default function AlatList() {
@@ -43,8 +42,8 @@ export default function AlatList() {
   };
 
   const filteredAlat = createKategori
-  ? alat.filter((item) => item.alat_kategori_id == createKategori)
-  : alat;
+    ? alat.filter((item) => item.alat_kategori_id == createKategori)
+    : alat;
 
   if (loading) {
     return (
@@ -73,49 +72,48 @@ export default function AlatList() {
         </div>
 
         <div className="max-w-4xl mx-auto px-4 py-10">
-          <label className="block mb-4 text-lg font-medium text-gray-700 dark:text-gray-300">
-            Pilih Kategori
-          </label>
-          <select
-            value={createKategori}
-            onChange={handleKategoriChange}
-            className="block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500 dark:bg-gray-800 dark:text-white"
-          >
-            <option value="">Semua Kategori</option>
-            {kategori.map((kategori) => (
-              <option key={kategori.kategori_id} value={kategori.kategori_id}>
-                {kategori.kategori_nama}
-              </option>
-            ))}
-          </select>
-        </div>
+  <label className="block mb-4 text-lg font-medium text-gray-700 dark:text-gray-300">
+    Pilih Kategori
+  </label>
+  <select
+    value={createKategori}
+    onChange={handleKategoriChange}
+    className="block w-full p-4 mb-4 border border-gray-300 rounded-lg shadow-md focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 dark:bg-gray-800 dark:text-white hover:border-blue-700 hover:shadow-lg transition-all duration-300"
+  >
+    <option value="">Semua Kategori</option>
+    {kategori.map((kategori) => (
+      <option key={kategori.kategori_id} value={kategori.kategori_id}>
+        {kategori.kategori_nama}
+      </option>
+    ))}
+  </select>
+</div>
 
-        <div className="flex flex-col space-y-12">
-          <h2 className="text-5xl font-serif font-bold text-gray-900 shadow-md hover:shadow-lg transition-shadow duration-300 p-8">
-            Alat
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-8 bg-gray-100 rounded-lg">
-            {filteredAlat?.map((item, index) => (
-              <a
-                key={index}
-                href="#"
-                className="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
-              >
-                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  {item.alat_nama}
-                </h5>
-                <p className="font-normal text-gray-700 dark:text-gray-400">
-                  {item.alat_deskripsi}
-                </p>
-                <div className="flex items-center justify-between mt-4">
-                  <span className="text-3xl font-bold text-gray-900 dark:text-white">
-                    ${item.alat_hargaperhari}
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-8 bg-gray-100 rounded-lg">
+  {filteredAlat?.map((item, index) => (
+    <a
+      key={index}
+      href="#"
+      className="block p-6 bg-gradient-to-r from-blue-50 to-blue-100 border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+    >
+      <h5 className="mb-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+        {item.alat_nama}
+      </h5>
+      <p className="font-normal font-sans text-gray-700 dark:text-gray-400">
+        {item.alat_deskripsi}
+      </p>
+      <div className="flex items-center justify-between mt-4">
+        <span className="text-2xl font-normal text-blue-800 dark:text-blue-300">
+          Rp {item.alat_hargaperhari}
+        </span>
+      </div>
+    </a>
+  ))}
+</div>
+
+
+
       </div>
     </>
   );

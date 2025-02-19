@@ -26,12 +26,28 @@ const AlatForm: React.FC<AlatFormProps> = ({
     kategori_id: initialData?.alat_kategori_id || "",
   });
 
-  const [categories, setCategories] = useState<{ id: number; nama: string }[]>([]);
+  const [categories, setCategories] = useState<{ id: number; nama: string }[]>(
+    []
+  );
   const [loadingCategories, setLoadingCategories] = useState<boolean>(true);
 
   const getToken = (): string | null => {
     return localStorage.getItem("accessToken");
   };
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData((prev) => ({
+        ...prev,
+        alat_id: initialData.data.alat_id,
+        alat_nama: initialData.data.alat_nama || "",
+        alat_deskripsi: initialData.data.alat_deskripsi || "",
+        alat_hargaperhari: initialData.data.alat_hargaperhari || "",
+        alat_stok: initialData.data.alat_stok || "",
+        kategori_id: initialData.data.kategori_id || "",
+      }));
+    }
+  }, [initialData]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -59,8 +75,11 @@ const AlatForm: React.FC<AlatFormProps> = ({
     fetchCategories();
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
+    console.log(name, value);
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -150,15 +169,22 @@ const AlatForm: React.FC<AlatFormProps> = ({
           ) : (
             <select
               name="alat_kategori_id"
-              value={formData.alat_kategori_id}
               onChange={handleChange}
               required
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg shadow-inner focus:outline-none focus:border-blue-500 dark:bg-gray-800 dark:text-white"
             >
-              <option value="">Pilih Kategori</option>
+              <option value="" disabled>
+                Pilih Kategori
+              </option>
               {categories?.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.nama}
+                <option
+                  key={category.kategori_id}
+                  value={category.kategori_id}
+                  defaultValue={
+                    formData.alat_kategori_id === category.kategori_id
+                  }
+                >
+                  {category.kategori_nama}
                 </option>
               ))}
             </select>
