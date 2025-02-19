@@ -30,19 +30,20 @@ const LoginPage = () => {
       return response.json();
     },
     onSuccess: (data) => {
-      console.log("Login response:", data); // Debugging
+      console.log("Login response:", data);
 
       if (!data.access_token) {
         setErrorMessage("Login berhasil tetapi token tidak ditemukan.");
         return;
       }
 
-      // Simpan token dan data user ke localStorage
-      document.cookie = `accessToken=${data.access_token}; path=/;`;
-      document.cookie = `user=${JSON.stringify(data.user)}; path=/;`;
+      // Simpan token dan user ke localStorage
+      localStorage.setItem("accessToken", data.access_token);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
       router.push("/dashboard/admin");
     },
+
     onError: (error: any) => {
       setErrorMessage(error.message);
     },

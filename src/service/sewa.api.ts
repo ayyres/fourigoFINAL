@@ -1,6 +1,8 @@
 import { Sewa } from "@/types/sewa.type";
 
 const API_URL = "https://final-project-app.aran8276.site/api/v1/penyewaan";
+const APIDetail_URL =
+  "https://final-project-app.aran8276.site/api/v1/detail/penyewaan";
 
 // Fungsi untuk mendapatkan token dari localStorage
 const getToken = (): string | null => {
@@ -15,6 +17,28 @@ export const fetchSewas = async (): Promise<Sewa[]> => {
   }
 
   const res = await fetch(API_URL, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const errorResponse = await res.json();
+    throw new Error(errorResponse.message || "Failed to fetch Sewa");
+  }
+
+  return res.json();
+};
+
+export const fetchSewaDetails = async (): Promise<Sewa[]> => {
+  const token = getToken();
+  if (!token) {
+    throw new Error("Unauthorized: No authentication token found");
+  }
+
+  const res = await fetch(APIDetail_URL, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

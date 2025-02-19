@@ -7,3 +7,11 @@ export interface Sewa {
   penyewaan_totalharga: number;
   penyewaan_pelanggan_id: string;
 }
+
+export interface sewaDetail {
+  penyewaan_detail_id: number;
+  penyewaan_detail_penyewaan_id: number;
+  penyewaan_detail_alat_id: number;
+  penyewaan_detail_jumlah: number;
+  penyewaan_detail_subharga: number;
+}
