@@ -23,7 +23,7 @@ const AlatForm: React.FC<AlatFormProps> = ({
     alat_deskripsi: initialData?.alat_deskripsi || "",
     alat_hargaperhari: initialData?.alat_hargaperhari || "",
     alat_stok: initialData?.alat_stok || "",
-    kategori_id: initialData?.alat_kategori_id || "",
+    alat_kategori_id: initialData?.alat_kategori_id || "",
   });
 
   const [categories, setCategories] = useState<{ id: number; nama: string }[]>(
@@ -44,7 +44,7 @@ const AlatForm: React.FC<AlatFormProps> = ({
         alat_deskripsi: initialData.data.alat_deskripsi || "",
         alat_hargaperhari: initialData.data.alat_hargaperhari || "",
         alat_stok: initialData.data.alat_stok || "",
-        kategori_id: initialData.data.kategori_id || "",
+        alat_kategori_id: initialData.data.alat_kategori_id || "",
       }));
     }
   }, [initialData]);
@@ -170,6 +170,7 @@ const AlatForm: React.FC<AlatFormProps> = ({
             <select
               name="alat_kategori_id"
               onChange={handleChange}
+              value={formData.alat_kategori_id}
               required
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg shadow-inner focus:outline-none focus:border-blue-500 dark:bg-gray-800 dark:text-white"
             >
