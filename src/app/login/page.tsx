@@ -38,14 +38,14 @@ const LoginPage = () => {
       }
 
       // Simpan token dan data user ke localStorage
-      localStorage.setItem("accessToken", data.access_token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      document.cookie = `accessToken=${data.access_token}; path=/;`;
+      document.cookie = `user=${JSON.stringify(data.user)}; path=/;`;
 
       // Redirect berdasarkan peran
       if (data.user.role === "admin") {
         router.push("dashboard/admin");
       } else {
-        router.push("dashboard/admin"); // Ganti ke dashboard pengguna
+        router.push("dashboard/guest"); // Ganti ke dashboard pengguna
       }
     },
     onError: (error: any) => {
@@ -59,11 +59,18 @@ const LoginPage = () => {
     loginMutation.mutate({ email, password });
   };
 
-  const handleGuestLogin = () => {
-    // Arahkan ke halaman user dashboard atau halaman tamu
-    localStorage.setItem("accessToken", "guest_token");
-    localStorage.setItem("user", JSON.stringify({ role: "guest" }));
-    router.push("Dashboard/guest"); // Halaman tamu
+  // const handleGuestLogin = () => {
+  //   // Arahkan ke halaman user dashboard atau halaman tamu
+  //   localStorage.setItem("accessToken", "guest_token");
+  //   localStorage.setItem("user", JSON.stringify({ role: "guest" }));
+  //   router.push("Dashboard/guest"); // Halaman tamu
+  // };
+
+  const handleLogout = () => {
+    document.cookie =
+      "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+    document.cookie = "user=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+    router.push("/login");
   };
 
   return (
@@ -121,8 +128,6 @@ const LoginPage = () => {
           {loginMutation.isPending ? "Memproses..." : "Lanjutkan"}
         </button>
 
-       
-
         <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
           <a
             href="/forgot-password"
@@ -132,11 +137,11 @@ const LoginPage = () => {
           </a>
         </p>
 
-         {/* Link login sebagai tamu */}
-         <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
+        {/* Link login sebagai tamu */}
+        <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
           <button
             type="button"
-            onClick={handleGuestLogin}
+            onClick={handleLogout}
             className="font-medium text-blue-600 hover:underline dark:text-blue-500"
           >
             Login sebagai Tamu
