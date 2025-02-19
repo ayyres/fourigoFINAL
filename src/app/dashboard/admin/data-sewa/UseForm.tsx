@@ -31,41 +31,51 @@ const UserForm: React.FC<SewaFormProps> = ({
     penyewaan_pelanggan_id: initialData?.penyewaan_pelanggan_id || "",
   });
 
-  const [pelanggan, setPelanggan] = useState<
-    { pelanggan_id: number; pelanggan_nama: string }[]
-  >([]);
+  const [pelanggan, setPelanggan] = useState<{ id: number; nama: string }[]>(
+    []
+  );
+  const [loadingPelanggan, setLoadingPelanggan] = useState<boolean>(true);
 
   useEffect(() => {
-    const token = getToken();
-    fetch("https://final-project-app.aran8276.site/api/v1/pelanggan", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Gagal mengambil data pelanggan");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Pastikan data adalah array dan memiliki struktur yang benar
-        if (Array.isArray(data)) {
-          const formattedData = data.map((item: any) => ({
-            id: item.id.toString(),
-            name: item.nama, // Sesuaikan dengan properti yang ada di API
-          }));
-          setPelanggan(formattedData);
-        } else {
-          throw new Error("Data pelanggan tidak valid");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching pelanggan:", error);
-        setError(error.message);
-      });
+    if (initialData) {
+      setFormData((prev) => ({
+        ...prev,
+        penyewaan_id: initialData.data.penyewaan_id || 0,
+        penyewaan_tglsewa: initialData.data.penyewaan_tglsewa || "",
+        penyewaan_tglkembali: initialData.data.penyewaan_tglkembali || "",
+        penyewaan_sttspembayaran:
+          initialData.data.penyewaan_sttspembayaran || "",
+        penyewaan_sttskembali: initialData.data.penyewaan_sttskembali || "",
+        penyewaan_totalharga: initialData.data.penyewaan_totalharga || 0,
+        penyewaan_pelanggan_id: initialData.data.penyewaan_pelanggan_id || "",
+      }));
+    }
+  });
+
+  useEffect(() => {
+    const fetchPelanggan = async () => {
+      const token = getToken();
+      try {
+        const response = await fetch(
+          "https://final-project-app.aran8276.site/api/v1/pelanggan",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setPelanggan(data.data);
+      } catch (error) {
+        console.error("Gagal mengambil data kategori:", error);
+      } finally {
+        setLoadingPelanggan(false);
+      }
+    };
+
+    fetchPelanggan();
   }, []);
 
   const handleChange = (
@@ -104,7 +114,13 @@ const UserForm: React.FC<SewaFormProps> = ({
           >
             <option value="">Pilih Pelanggan</option>
             {pelanggan.map((p) => (
-              <option key={p.pelanggan_id} value={p.pelanggan_id}>
+              <option
+                key={p.pelanggan_id}
+                value={p.pelanggan_id}
+                defaultValue={
+                  formData.penyewaan_pelanggan_id === pelanggan.pelanggan_id
+                }
+              >
                 {p.pelanggan_nama}
               </option>
             ))}
@@ -151,8 +167,8 @@ const UserForm: React.FC<SewaFormProps> = ({
             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg shadow-inner focus:outline-none focus:border-blue-500 dark:bg-gray-800 dark:text-white"
           >
             <option value="">Pilih Status</option>
-            <option value="Sudah">Sudah</option>
-            <option value="Belum">Belum</option>
+            <option value="Lunas">Sudah</option>
+            <option value="Belum Dibayar">Belum</option>
           </select>
         </div>
 

@@ -98,6 +98,7 @@ const DataTable: React.FC = () => {
               <td className="px-6 py-4">{sewa.penyewaan_tglkembali}</td>
               <td className="px-6 py-4">{sewa.penyewaan_sttspembayaran}</td>
               <td className="px-6 py-4">{sewa.penyewaan_sttskembali}</td>
+              <td className="px-6 py-4">{sewa.penyewaan_totalharga}</td>
               <td className="px-6 py-4 flex justify-center space-x-3">
                 <Link
                   href={
