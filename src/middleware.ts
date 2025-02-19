@@ -4,7 +4,7 @@ export function middleware(request) {
   const { pathname } = request.nextUrl;
   console.log("middewe :", pathname);
   // Daftar path yang memerlukan autentikasi
-  const protectedPaths = ["/Dashboard/admin", "/Dashboard/guest"];
+  const protectedPaths = ["/dashboard/admin", "/dashboard/guest"];
   // Cek apakah path yang diminta termasuk dalam daftar protectedPaths
   const isProtected = protectedPaths.some((path) => pathname.startsWith(path));
   console.log("middewe is protected? :", isProtected);

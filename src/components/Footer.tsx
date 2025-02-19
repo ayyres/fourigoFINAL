@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="bg-gray-800 text-white py-4">
     <div className="container mx-auto text-center">
       <p className="text-sm">
-        &copy; Learmode 2025. All rights reserved.
+        &copy; Rentronix 2025. All rights reserved.
       </p>
     </div>
   </footer>
