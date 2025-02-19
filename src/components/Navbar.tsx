@@ -37,41 +37,6 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-
-        {/* Search Bar
-          <form className="w-full max-w-md ml-4">
-            <div className="relative w-full">
-              <input
-                type="search"
-                id="default-search"
-                className="block w-full py-3 pr-12 pl-4 text-lg text-gray-900 border border-gray-300 rounded-lg bg-transparent focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Aku mau belanja...."
-                required
-              />
-
-              <span className="absolute inset-y-0 right-14 w-px bg-gray-400 opacity-30"></span>
-              <button
-                type="submit"
-                className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 focus:outline-none"
-              >
-                <svg
-                  className="w-6 h-6"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </form> */}
       </div>
     </nav>
   );

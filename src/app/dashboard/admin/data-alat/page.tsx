@@ -55,8 +55,19 @@ const Page = () => {
 
   return (
     <div>
-      <h1>Alat Data</h1>
-      <button onClick={handleAddUserClick}>Add Alat</button>
+      <h3 className="mb-4 text-2xl font-extrabold font-serif text-center leading-none tracking-tight text-gray-900 md:text-2xl lg:text-5xl dark:text-white">
+          Data{" "}
+          <span className="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600">
+            Alat
+          </span>
+        </h3>
+        <button
+  onClick={handleAddUserClick}
+  className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition duration-200 mb-4 mx-11 block"
+>
+  Add Alat
+</button>
+
       <DataTable
         data={alats}
         onEdit={(alat) => {

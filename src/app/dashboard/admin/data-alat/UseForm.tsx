@@ -11,7 +11,7 @@ interface AlatFormProps {
   disabled?: boolean;
 }
 
-const UserForm: React.FC<AlatFormProps> = ({
+const AlatForm: React.FC<AlatFormProps> = ({
   initialData,
   onSubmit,
   onCancel,
@@ -23,7 +23,7 @@ const UserForm: React.FC<AlatFormProps> = ({
     alat_deskripsi: initialData?.alat_deskripsi || "",
     alat_hargaperhari: initialData?.alat_hargaperhari || "",
     alat_stok: initialData?.alat_stok || "",
-    kategori_id: initialData?.alat_kategori_id || "", // Tambahkan kategori_id
+    alat_kategori_id: initialData?.alat_kategori_id || "",
   });
 
   const [categories, setCategories] = useState<{ id: number; nama: string }[]>(
@@ -36,7 +36,20 @@ const UserForm: React.FC<AlatFormProps> = ({
   };
 
   useEffect(() => {
-    // Fetch data kategori dari API
+    if (initialData) {
+      setFormData((prev) => ({
+        ...prev,
+        alat_id: initialData.data.alat_id,
+        alat_nama: initialData.data.alat_nama || "",
+        alat_deskripsi: initialData.data.alat_deskripsi || "",
+        alat_hargaperhari: initialData.data.alat_hargaperhari || "",
+        alat_stok: initialData.data.alat_stok || "",
+        alat_kategori_id: initialData.data.alat_kategori_id || "",
+      }));
+    }
+  }, [initialData]);
+
+  useEffect(() => {
     const fetchCategories = async () => {
       const token = getToken();
       try {
@@ -49,9 +62,9 @@ const UserForm: React.FC<AlatFormProps> = ({
               Authorization: `Bearer ${token}`,
             },
           }
-        ); // Ganti dengan URL API kategori yang benar
+        );
         const data = await response.json();
-        setCategories(data);
+        setCategories(data.data);
       } catch (error) {
         console.error("Gagal mengambil data kategori:", error);
       } finally {
@@ -66,6 +79,7 @@ const UserForm: React.FC<AlatFormProps> = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+    console.log(name, value);
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -75,20 +89,23 @@ const UserForm: React.FC<AlatFormProps> = ({
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-gray-800 py-10">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-lg shadow-md max-w-2xl w-full mx-4 mt-10 border border-gray-200"
+        className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-xl max-w-xl w-full mx-4 border border-gray-200 dark:border-gray-700"
       >
-        <h2 className="text-5xl font-extrabold mb-6 text-gray-800 dark:text-white">
-          {initialData ? "Update" : "Create"}
-          <small className="ms-2 font-semibold text-gray-500 dark:text-gray-400">
-            Alat
-          </small>
+        <h2 className="text-3xl font-serif font-bold mb-6 text-gray-800 dark:text-white text-center">
+          {initialData ? "Edit" : "Tambah"}{" "}
+          <span className="text-blue-600 dark:text-blue-400">Alat</span>
         </h2>
+        <p className="text-base text-gray-500 dark:text-gray-400 text-center mb-6">
+          {initialData
+            ? "Update data alat di bawah ini."
+            : "Isi form berikut untuk menambah data alat baru."}
+        </p>
 
-        <div className="mb-6">
-          <label className="block text-lg text-gray-600 mb-2">
+        <div className="mb-5">
+          <label className="block text-lg font-medium text-gray-600 dark:text-gray-300 mb-2">
             Nama Barang:
           </label>
           <input
@@ -97,24 +114,26 @@ const UserForm: React.FC<AlatFormProps> = ({
             value={formData.alat_nama}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg shadow-inner focus:outline-none focus:border-blue-500 dark:bg-gray-800 dark:text-white"
           />
         </div>
 
-        <div className="mb-6">
-          <label className="block text-lg text-gray-600 mb-2">Deskripsi:</label>
+        <div className="mb-5">
+          <label className="block text-lg font-medium text-gray-600 dark:text-gray-300 mb-2">
+            Deskripsi:
+          </label>
           <input
             type="text"
             name="alat_deskripsi"
             value={formData.alat_deskripsi}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg shadow-inner focus:outline-none focus:border-blue-500 dark:bg-gray-800 dark:text-white"
           />
         </div>
 
-        <div className="mb-6">
-          <label className="block text-lg text-gray-600 mb-2">
+        <div className="mb-5">
+          <label className="block text-lg font-medium text-gray-600 dark:text-gray-300 mb-2">
             Harga Per-Hari:
           </label>
           <input
@@ -123,58 +142,69 @@ const UserForm: React.FC<AlatFormProps> = ({
             value={formData.alat_hargaperhari}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg shadow-inner focus:outline-none focus:border-blue-500 dark:bg-gray-800 dark:text-white"
           />
         </div>
 
-        <div className="mb-6">
-          <label className="block text-lg text-gray-600 mb-2">Stok:</label>
+        <div className="mb-5">
+          <label className="block text-lg font-medium text-gray-600 dark:text-gray-300 mb-2">
+            Stok:
+          </label>
           <input
             type="text"
             name="alat_stok"
             value={formData.alat_stok}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg shadow-inner focus:outline-none focus:border-blue-500 dark:bg-gray-800 dark:text-white"
           />
         </div>
 
-        {/* Dropdown untuk kategori */}
-        <div className="mb-6">
-          <label className="block text-lg text-gray-600 mb-2">Kategori:</label>
+        <div className="mb-5">
+          <label className="block text-lg font-medium text-gray-600 dark:text-gray-300 mb-2">
+            Kategori:
+          </label>
           {loadingCategories ? (
             <p className="text-gray-500">Loading kategori...</p>
           ) : (
             <select
-              name="kategori_id"
-              value={formData.alat_kategori_id}
+              name="alat_kategori_id"
               onChange={handleChange}
+              value={formData.alat_kategori_id}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg shadow-inner focus:outline-none focus:border-blue-500 dark:bg-gray-800 dark:text-white"
             >
-              <option value="">Pilih Kategori</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.nama}
+              <option value="" disabled>
+                Pilih Kategori
+              </option>
+              {categories?.map((category) => (
+                <option
+                  key={category.kategori_id}
+                  value={category.kategori_id}
+                  defaultValue={
+                    formData.alat_kategori_id === category.kategori_id
+                  }
+                >
+                  {category.kategori_nama}
                 </option>
               ))}
             </select>
           )}
         </div>
 
-        <div className="flex justify-end space-x-4">
+        <div className="flex justify-end space-x-3">
           <button
             type="button"
             onClick={onCancel}
-            className="px-5 py-3 rounded-lg bg-gray-300 text-gray-700 hover:bg-gray-400 transition duration-200"
+            className="px-5 py-2 rounded-lg bg-gray-300 text-gray-700 hover:bg-gray-400 transition duration-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-5 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition duration-200"
+            className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition duration-200 dark:bg-blue-500 dark:hover:bg-blue-600"
           >
-            {initialData ? "Update" : "Create"}
+            {initialData ? "Edit" : "Tambah"}
           </button>
         </div>
       </form>
@@ -182,4 +212,4 @@ const UserForm: React.FC<AlatFormProps> = ({
   );
 };
 
-export default UserForm;
+export default AlatForm;

@@ -70,27 +70,31 @@ const AdminDashboard = () => {
     const fetchData = async () => {
       try {
         // Fetch alat
-        const alatRes = await fetch(`${API_URL}/alat`);
+        const alatRes = await fetch(`${API_URL}/v1/alat`);
         const alatData = await alatRes.json();
-        setTools(alatData);
+        setTools(Array.isArray(alatData) ? alatData : []);
 
         // Fetch penyewaan
-        const penyewaanRes = await fetch(`${API_URL}/penyewaan`);
+        const penyewaanRes = await fetch(`${API_URL}/v1/penyewaan`);
         const penyewaanData = await penyewaanRes.json();
-        setRentedTools(penyewaanData);
+        setRentedTools(Array.isArray(penyewaanData) ? penyewaanData : []);
 
         // Fetch pelanggan
-        const pelangganRes = await fetch(`${API_URL}/pelanggan`);
+        const pelangganRes = await fetch(`${API_URL}/v1/pelanggan`);
         const pelangganData = await pelangganRes.json();
 
         // Perhitungan statistik (dummy logic, sesuaikan dengan API backend)
         setStats({
-          totalTools: alatData.length,
-          rentedTools: penyewaanData.length,
-          activeUsers: pelangganData.length,
-          revenue: penyewaanData.reduce((acc: number, p: Penyewaan) => acc + (p.totalharga || 0), 0),
+          totalTools: Array.isArray(alatData) ? alatData.length : 0,
+          rentedTools: Array.isArray(penyewaanData) ? penyewaanData.length : 0,
+          activeUsers: Array.isArray(pelangganData) ? pelangganData.length : 0,
+          revenue: Array.isArray(penyewaanData)
+            ? penyewaanData.reduce(
+                (acc: number, p: Penyewaan) => acc + (p.totalharga || 0),
+                0
+              )
+            : 0,
         });
-        
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -195,16 +199,17 @@ const AdminDashboard = () => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y divide-gray-200 dark:divide-gray-700">
-            {tools.map((tool) => (
+            {Array.isArray(tools) && tools.map((tool) => (
               <Table.Row
-                key={tool.id}
-                className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-transform transform hover:scale-105 duration-300"
+                  key={tool.id}
+                  className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-transform transform hover:scale-105 duration-300"
               >
                 <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
                   {tool.nama}
                 </Table.Cell>
                 <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
-                  {tool.kategori_id} {/* You might need to map this ID to category name */}
+                  {tool.kategori_id}{" "}
+                  {/* You might need to map this ID to category name */}
                 </Table.Cell>
                 <Table.Cell className="py-4 px-6">
                   <span
@@ -257,16 +262,18 @@ const AdminDashboard = () => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y divide-gray-200 dark:divide-gray-700">
-            {rentedTools.map((rentedTool) => (
+            {Array.isArray(rentedTools) && rentedTools.map((rentedTool) => (
               <Table.Row
                 key={rentedTool.id}
                 className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-transform transform hover:scale-105 duration-300"
               >
                 <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
-                  {rentedTool.tglsewa} {/* Assuming you want to show rental date */}
+                  {rentedTool.tglsewa}{" "}
+                  {/* Assuming you want to show rental date */}
                 </Table.Cell>
                 <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
-                  {rentedTool.pelanggan_id} {/* Map this ID to the actual customer */}
+                  {rentedTool.pelanggan_id}{" "}
+                  {/* Map this ID to the actual customer */}
                 </Table.Cell>
                 <Table.Cell className="py-4 px-6 text-gray-800 dark:text-gray-300">
                   {rentedTool.sttskembali}
@@ -313,7 +320,7 @@ const AdminDashboard = () => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y divide-gray-200 dark:divide-gray-700">
-            {history.map((rental) => (
+            {Array.isArray(history) && history.map((rental) => (
               <Table.Row
                 key={rental.id}
                 className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-transform transform hover:scale-105 duration-300"
