@@ -1,8 +1,8 @@
 "use client";
 import { useEffect } from "react";
-import { toast, Toaster } from "react-hot-toast"; // Pastikan untuk mengimpor toast dengan benar
-import Link from "next/link";
 
+import Link from "next/link";
+import toast, { Toaster } from "react-hot-toast";
 export default function Home() {
   useEffect(() => {
     toast.success("Selamat datang di Portal Next.js!"); // Menggunakan toast.success

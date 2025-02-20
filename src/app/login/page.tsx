@@ -91,6 +91,7 @@ const LoginPage = () => {
           Email
         </label>
         <input
+          name="username"
           type="email"
           id="email"
           value={email}
@@ -107,6 +108,7 @@ const LoginPage = () => {
           Password
         </label>
         <input
+          name="password"
           type="password"
           id="password"
           value={password}
@@ -124,8 +126,8 @@ const LoginPage = () => {
           {loginMutation.isPending ? "Memproses..." : "Lanjutkan"}
         </button>
 
-        <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
           <div className="flex justify-between">
+        <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
             <a
               href="/forgot-password"
               className="font-medium text-blue-600 hover:underline dark:text-blue-500"
@@ -138,8 +140,8 @@ const LoginPage = () => {
             >
               Login as Guess
             </a>
-          </div>
         </p>
+          </div>
 
         <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">
           Belum punya akun?{" "}
