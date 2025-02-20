@@ -26,7 +26,7 @@ const EditAlatPage = () => {
         const data = await fetchAlatById(Number(alatId));
         console.log("Fetched alat data:", data);
 
-        if (!data.data.alat_id) {
+        if (!data.alat_id) {
           console.error("Fetched data does not contain alat_id!");
         }
 

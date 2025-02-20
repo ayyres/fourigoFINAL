@@ -69,7 +69,7 @@ const Page = () => {
       </button>
 
       <DataTable
-        data={alats}
+        dataTable={alats}
         onEdit={(alat) => {
           setSelectedAlat(alat);
           setShowForm(true);
