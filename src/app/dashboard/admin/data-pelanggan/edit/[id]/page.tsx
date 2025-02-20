@@ -44,10 +44,6 @@ const EditUserPage = () => {
 
   const handleSubmit = async (updatedUser: User) => {
     try {
-      // if (!updatedUser.pelanggan_id) {
-      //   throw new Error("User ID is undefined. Cannot update.");
-      // }
-
       console.log("Submitting updated user data:", updatedUser);
       await updateUser(updatedUser);
       router.push("/dashboard/admin/data-pelanggan");

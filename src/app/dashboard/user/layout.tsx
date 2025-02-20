@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <>
       <Sidebar />
-      <Toaster/>
+      <Toaster />
       <div className="mt-24">{children}</div>
     </>
   );

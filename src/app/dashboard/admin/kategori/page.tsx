@@ -57,14 +57,12 @@ const Page = () => {
 
   return (
     <div className="p-6">
-      {/* <div className="bg-white shadow-md rounded-lg p-6"> */}
-
       <h3 className="mb-4 text-2xl font-extrabold font-serif text-center leading-none tracking-tight text-gray-900 md:text-2xl lg:text-5xl dark:text-white">
-          Data{" "}
-          <span className="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600">
-            User
-          </span>
-        </h3>
+        Data{" "}
+        <span className="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600">
+          User
+        </span>
+      </h3>
 
       <button
         onClick={handleAddKategoriClick}
@@ -81,7 +79,6 @@ const Page = () => {
         onDelete={handleDelete}
       />
     </div>
-    // </div>
   );
 };
 
