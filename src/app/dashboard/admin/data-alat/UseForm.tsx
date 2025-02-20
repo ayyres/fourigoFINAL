@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 
 interface AlatFormProps {
   initialData?: Alat;
-  onSubmit: (user: Alat | Omit<Alat, "alat_id">) => void;
+  onSubmit: (user: Alat | Omit<Alat, "id">) => void;
   onCancel: () => void;
   disabled?: boolean;
 }
@@ -22,8 +22,8 @@ const AlatForm: React.FC<AlatFormProps> = ({
     alat_nama: initialData?.alat_nama || "",
     alat_deskripsi: initialData?.alat_deskripsi || "",
     alat_hargaperhari: initialData?.alat_hargaperhari || "",
-    alat_stok: initialData?.alat_stok || "",
-    alat_kategori_id: initialData?.alat_kategori_id || "",
+    alat_stok: initialData?.alat_stok || 0,
+    alat_kategori_id: initialData?.alat_kategori_id || 0,
   });
 
   const [categories, setCategories] = useState<{ id: number; nama: string }[]>(
@@ -39,7 +39,7 @@ const AlatForm: React.FC<AlatFormProps> = ({
     if (initialData) {
       setFormData((prev) => ({
         ...prev,
-        alat_id: initialData.data.alat_id,
+        alat_id: initialData.alat_id || 0,
         alat_nama: initialData.data.alat_nama || "",
         alat_deskripsi: initialData.data.alat_deskripsi || "",
         alat_hargaperhari: initialData.data.alat_hargaperhari || "",
